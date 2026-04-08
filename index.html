@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClawGuardian | حماية متقدمة لـ OpenClaw</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; padding: 60px 20px; background: rgba(255,255,255,0.05); border-radius: 30px; margin-bottom: 40px; }
+        h1 { font-size: 3rem; background: linear-gradient(45deg, #FFD700, #FF8C00); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin: 50px 0; }
+        .feature-card { background: rgba(255,255,255,0.08); border-radius: 20px; padding: 30px; text-align: center; border: 1px solid rgba(255,215,0,0.2); transition: transform 0.3s; }
+        .feature-card:hover { transform: translateY(-10px); border-color: #FFD700; }
+        .feature-icon { font-size: 3rem; margin-bottom: 20px; }
+        .btn { display: inline-block; background: linear-gradient(45deg, #FFD700, #FF8C00); color: #0a0e27; padding: 15px 40px; border-radius: 50px; text-decoration: none; font-weight: bold; margin: 10px; transition: transform 0.3s; }
+        .btn:hover { transform: scale(1.05); }
+        .install-box { background: #0a0e27; border-radius: 15px; padding: 20px; margin: 30px 0; text-align: center; border: 1px solid #FFD700; }
+        .command { font-family: monospace; font-size: 1rem; background: #1a1f3a; padding: 15px; border-radius: 10px; word-break: break-all; }
+        .footer { text-align: center; padding: 40px; font-size: 0.8rem; opacity: 0.6; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; }
+        @media (max-width: 768px) { h1 { font-size: 2rem; } .features { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="font-size: 4rem;">🛡️</div>
+            <h1>ClawGuardian</h1>
+            <p>الحماية المتقدمة لـ OpenClaw و ClawHub Skills</p>
+        </div>
+        
+        <div class="features">
+            <div class="feature-card"><div class="feature-icon">🔍</div><h3>كشف التهديدات</h3><p>يكتشف حقن الأوامر والمهارات الخبيثة في الوقت الفعلي</p></div>
+            <div class="feature-card"><div class="feature-icon">🔑</div><h3>حماية المفاتيح</h3><p>يمنع سرقة المفاتيح الخاصة وملفات .env</p></div>
+            <div class="feature-card"><div class="feature-icon">📁</div><h3>مراقبة الملفات</h3><p>يراقب ملفات SOUL.md و MEMORY.md لمنع التلاعب</p></div>
+            <div class="feature-card"><div class="feature-icon">🤖</div><h3>تنبيهات فورية</h3><p>إشعارات عبر Telegram عند اكتشاف أي تهديد</p></div>
+            <div class="feature-card"><div class="feature-icon">☁️</div><h3>تخزين سحابي</h3><p>تخزين جميع التهديدات في Supabase للتحليل</p></div>
+            <div class="feature-card"><div class="feature-icon">📊</div><h3>لوحة تحكم</h3><p>عرض الإحصائيات والتهديدات في الوقت الفعلي</p></div>
+        </div>
+        
+        <div class="install-box">
+            <h3 style="color:#FFD700;">📥 تثبيت ClawGuardian</h3>
+            <div class="command">/install-skill https://raw.githubusercontent.com/Freedingoxo/clawguardian-skill/main/SKILL.md</div>
+            <button class="btn" onclick="copyToClipboard()">📋 نسخ أمر التثبيت</button>
+        </div>
+        
+        <div style="text-align: center;">
+            <a href="https://Freedingoxo.github.io/clawguardian-skill/airdrop.html" class="btn">🎁 Airdrop 1,200 $BLUM</a>
+            <a href="https://Freedingoxo.github.io/clawguardian-skill/research_hub.html" class="btn">🔬 Research Hub</a>
+            <a href="https://github.com/Freedingoxo/clawguardian-skill" class="btn">🐙 GitHub</a>
+        </div>
+        
+        <div class="footer">
+            <p>© 2026 ClawGuardian | Developed by AI Empire</p>
+            <p>🔒 حماية متقدمة لمستخدمي OpenClaw حول العالم</p>
+        </div>
+    </div>
+    <script>
+        function copyToClipboard() {
+            const text = "/install-skill https://raw.githubusercontent.com/Freedingoxo/clawguardian-skill/main/SKILL.md";
+            navigator.clipboard.writeText(text);
+            alert("✅ تم نسخ أمر التثبيت");
+        }
+    </script>
+</body>
+</html>
