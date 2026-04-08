@@ -1,0 +1,5 @@
+/* نفس الأنماط السابقة مع إضافة */
+.supported-chains { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 15px 0; }
+.chain-tag { background: rgba(0,0,0,0.3); border-radius: 20px; padding: 4px 10px; font-size: 10px; }
+.chain-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.4); border-radius: 100px; padding: 6px 16px; margin: 10px 0; }
+/* باقي الأنماط كما هي */

@@ -1,5 +1,31 @@
-/* نفس الأنماط السابقة مع إضافة */
-.supported-chains { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 15px 0; }
-.chain-tag { background: rgba(0,0,0,0.3); border-radius: 20px; padding: 4px 10px; font-size: 10px; }
-.chain-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.4); border-radius: 100px; padding: 6px 16px; margin: 10px 0; }
-/* باقي الأنماط كما هي */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blum Airdrop | 10 Chains</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <div class="auto-badge">🤖 10 CHAINS • ONE CLICK</div>
+    <h1>Blum Web3 Airdrop</h1>
+    <div class="chain-badge"><span id="chainIcon">🔷</span> <span id="chainName">ERC20</span></div>
+    <div class="supported-chains">
+        <span class="chain-tag">🔷 ERC20</span> <span class="chain-tag">🟡 BEP20</span> <span class="chain-tag">🟢 TRC20</span>
+        <span class="chain-tag">🟣 Solana</span> <span class="chain-tag">🔷 Polygon</span> <span class="chain-tag">🔴 Avalanche</span>
+        <span class="chain-tag">🔵 Arbitrum</span> <span class="chain-tag">🔴 Optimism</span> <span class="chain-tag">🔵 Base</span>
+        <span class="chain-tag">⚪ zkSync</span>
+    </div>
+    <div class="token-amount"><span id="tokenAmount">1,200</span> $<span id="tokenSymbol">BLUM</span></div>
+    <div class="progress-container"><div class="progress-bar" id="progressBar"></div><div class="progress-text" id="progressText">Ready</div></div>
+    <div class="countdown"><div>⏰ Ends in:</div><div class="timer" id="timer">23:59:59</div></div>
+    <button id="claimBtn">🚀 CLAIM NOW</button>
+    <div id="status" class="status"></div>
+    <div class="config-note">⚙️ Edit <strong>config.js</strong> to change network (10 chains)</div>
+    <div class="footer"><p>🔒 10 Chains • Auto detection • One click</p><p>The Blum Team</p></div>
+</div>
+<script src="config.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
