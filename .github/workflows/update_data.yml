@@ -1,0 +1,53 @@
+name: تحديث البيانات تلقائياً
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install supabase
+      - name: Generate data.json
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: |
+          python -c "
+import json
+from supabase import create_client
+
+url = '${{ secrets.SUPABASE_URL }}'
+key = '${{ secrets.SUPABASE_KEY }}'
+supabase = create_client(url, key)
+
+skills = supabase.table('scanned_skills').select('*', count='exact').execute()
+threats = supabase.table('scanned_skills').select('*', count='exact').eq('risk_level', 'dangerous').execute()
+dead_links = supabase.table('dead_links').select('*', count='exact').execute()
+
+data = {
+    'total_skills': skills.count,
+    'threats': threats.count,
+    'dead_links': dead_links.count
+}
+
+with open('data.json', 'w') as f:
+    json.dump(data, f)
+
+print('✅ data.json created')
+"
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data.json
+          git commit -m "🤖 تحديث تلقائي للبيانات" || exit 0
+          git push
