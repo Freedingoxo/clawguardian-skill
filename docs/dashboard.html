@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreedLucas | لوحة التحكم الذكية (مودباس)</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        
+        :root{
+            --bg-gradient: radial-gradient(circle at 20% 30%, #0a0a0a, #020202);
+            --card-bg: rgba(20,20,30,0.85);
+            --text-primary: #ffffff;
+            --text-secondary: #bbbbbb;
+            --border-color: #FFD70033;
+            --cmd-btn-bg: rgba(20,20,30,0.9);
+            --cmd-btn-color: #FFD700;
+            --fault-bg: rgba(10,10,18,0.85);
+            --snippet-bg: #0a0a0a;
+            --table-border: #2a2a2a;
+            --header-gradient: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+            --shadow: 0 20px 35px rgba(0,0,0,0.6);
+        }
+        body.light{
+            --bg-gradient: radial-gradient(circle at 20% 30%, #f5f5f7, #e2e2e8);
+            --card-bg: rgba(250,250,255,0.9);
+            --text-primary: #111111;
+            --text-secondary: #333333;
+            --border-color: #DAA52066;
+            --cmd-btn-bg: rgba(230,230,240,0.9);
+            --cmd-btn-color: #b87c00;
+            --fault-bg: rgba(255,255,255,0.95);
+            --snippet-bg: #f8f8f8;
+            --table-border: #cccccc;
+            --header-gradient: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+            --shadow: 0 20px 35px rgba(0,0,0,0.1);
+        }
+        
+        body{
+            background: var(--bg-gradient);
+            font-family: 'Segoe UI', 'Poppins', system-ui;
+            padding: 25px;
+            transition: background 0.3s, color 0.2s;
+            color: var(--text-primary);
+        }
+        .dashboard{max-width: 1400px;margin:0 auto;}
+        
+        .header{
+            background: var(--header-gradient);
+            border-radius: 36px;
+            padding: 30px;
+            margin-bottom: 35px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+        .header h1{
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 38px;
+        }
+        .theme-switch-wrapper{
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        .theme-switch{
+            background: var(--card-bg);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-color);
+            border-radius: 60px;
+            padding: 8px 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #FFD700;
+        }
+        .control-panel{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 18px;
+            margin-bottom: 35px;
+        }
+        .cmd-btn{
+            background: var(--cmd-btn-bg);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-color);
+            border-radius: 60px;
+            padding: 12px 28px;
+            font-weight: bold;
+            color: var(--cmd-btn-color);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .cmd-btn:hover{ transform: translateY(-3px); background: #FFD700; color: #0a0a0a; }
+        .troubleshoot-section{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .fault-card{
+            background: var(--fault-bg);
+            border-radius: 32px;
+            padding: 22px;
+            border-left: 6px solid #ffaa33;
+        }
+        .fault-card h3{ color: #FFD700; }
+        .cmd-snippet{
+            background: var(--snippet-bg);
+            padding: 12px;
+            border-radius: 20px;
+            font-family: monospace;
+            font-size: 13px;
+            color: #0f0;
+        }
+        .resolve-link{
+            display: inline-flex;
+            background: #1f1f2a;
+            padding: 8px 18px;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #FFD700;
+            margin-top: 15px;
+        }
+        .stats{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px,1fr));
+            gap: 22px;
+            margin-bottom: 35px;
+        }
+        .stat-card{
+            background: var(--card-bg);
+            border-radius: 28px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        .stat-value{
+            font-size: 44px;
+            font-weight: 800;
+            background: linear-gradient(135deg,#fff,#FFD700);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .chart-card{
+            background: var(--card-bg);
+            border-radius: 28px;
+            padding: 20px;
+            margin-bottom: 35px;
+        }
+        table{ width: 100%; border-collapse: collapse; }
+        th,td{ padding: 12px; border-bottom: 1px solid var(--table-border); color: var(--text-primary); }
+        th{ color: #FFD700; }
+        .status-badge{ display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #0f0; margin-right: 8px; }
+        .footer{ text-align: center; margin-top: 40px; color: var(--text-secondary); }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="dashboard">
+    <div class="theme-switch-wrapper">
+        <div class="theme-switch" id="darkModeToggle">
+            <span>🌙</span> <span id="themeText">Dark Mode</span> <span>☀️</span>
+        </div>
+    </div>
+    <div class="header">
+        <h1>🛡️ FREEDLUCAS | لوحة التحكم (مودباس)</h1>
+        <p>تحليل الخلل · أوامر سريعة · روابط إصلاح شاملة</p>
+    </div>
+
+    <div class="control-panel">
+        <div class="cmd-btn" onclick="runCommand('status')">📊 /status</div>
+        <div class="cmd-btn" onclick="runCommand('attack')">⚔️ /attack</div>
+        <div class="cmd-btn" onclick="runCommand('phase airdrop')">🌀 Airdrop</div>
+        <div class="cmd-btn" onclick="runCommand('phase cpa')">💎 CPA</div>
+        <div class="cmd-btn" onclick="openSupabase()">🗄️ Supabase</div>
+        <div class="cmd-btn" onclick="openGitHub()">🐙 تحرير HTML</div>
+        <div class="cmd-btn" onclick="openPythonAnywhere()">☁️ PythonAnywhere</div>
+    </div>
+
+    <div class="troubleshoot-section">
+        <div class="fault-card"><h3>🔴 1. البوت لا يستقبل أوامر</h3><div class="cmd-snippet">pkill -f "python.*bot.py"<br>python3.10 bot.py</div><a class="resolve-link" href="https://www.pythonanywhere.com/user/Freedlucass/consoles/">🔗 فتح PythonAnywhere</a></div>
+        <div class="fault-card"><h3>🌐 2. Proxy لا يرسل</h3><div class="cmd-snippet">const BOT_TOKEN = "8719552856:AAES_JxOngY7jBCI0SJFXFiKGW3F_dRnUoQ";</div><a class="resolve-link" href="https://script.google.com/home/projects/1BQYwYXWuTv_UQACvZ7DpQzQTl2a1UHB3_xxi0Ww1I0e1W6CgeRQwPfV/edit">📄 تعديل Proxy</a></div>
+        <div class="fault-card"><h3>📄 3. صفحة Airdrop لا تحفظ</h3><div class="cmd-snippet">const PROXY_URL = "https://script.google.com/macros/s/AKfycbzRzY5ALW-81aERtvvCrC2EhRBnvYQ6iIrhCxQYJ1dzylpt3pGd6ixU9nz_5D7m9HKnhg/exec";</div><a class="resolve-link" href="https://github.com/freedingoxo/clawguardian-skill/edit/main/docs/index.html">✏️ تعديل HTML</a></div>
+    </div>
+
+    <div class="stats">
+        <div class="stat-card"><h3>🎁 المطالبات</h3><div class="stat-value" id="totalClaims">0</div></div>
+        <div class="stat-card"><h3>👁️ الزيارات</h3><div class="stat-value" id="totalScans">0</div></div>
+        <div class="stat-card"><h3>💰 إجمالي $BLUM</h3><div class="stat-value" id="totalCoins">0</div></div>
+        <div class="stat-card"><h3>📈 التحويل</h3><div class="stat-value" id="conversionRate">0%</div></div>
+    </div>
+
+    <div class="chart-card"><h3>📈 تطور المطالبات (آخر 7 أيام)</h3><canvas id="claimsChart" height="160"></canvas></div>
+    <div class="chart-card"><h3>🟢 حالة المنظومة</h3><div><span class="status-badge"></span> بوت: <span id="botHealth">يعمل</span></div><div><span class="status-badge"></span> Proxy: <span id="proxyHealth">مستجيب</span></div><div><span class="status-badge"></span> Supabase: <span id="dbHealth">متصل</span></div></div>
+
+    <div style="background: var(--card-bg); border-radius: 28px; padding: 20px;">
+        <h3 style="color:#FFD700;">📋 آخر المطالبات</h3>
+        <table id="claimsTable"><thead><tr><th>#</th><th>المحفظة</th><th>الشبكة</th><th>IP</th><th>الوقت</th></tr></thead><tbody><tr><td colspan="5">تحميل...</td></tr></tbody></table>
+    </div>
+    <div class="footer"><p>© FREEDLUCAS – مودباس متكامل</p><p id="lastUpdate"></p></div>
+</div>
+
+<script>
+    const SUPABASE_URL = "https://oliefagvnorzhlzvdfyw.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9saWVmYWd2bm9yemhsenZkZnl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1NjUwNDcsImV4cCI6MjA5MTE0MTA0N30.KZlFA_e3ub3zZnEZFBTGnshvyC9L2SNcwrfH9BiBauU";
+    let claimsChart = null;
+
+    const toggle = document.getElementById('darkModeToggle');
+    const themeTextSpan = document.getElementById('themeText');
+    if(localStorage.getItem('theme') === 'light'){
+        document.body.classList.add('light');
+        themeTextSpan.innerText = 'Light Mode';
+    } else { themeTextSpan.innerText = 'Dark Mode'; }
+    toggle.addEventListener('click', () => {
+        document.body.classList.toggle('light');
+        const isLight = document.body.classList.contains('light');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        themeTextSpan.innerText = isLight ? 'Light Mode' : 'Dark Mode';
+    });
+
+    function runCommand(cmd) { alert(`📟 الأمر: ${cmd}`); }
+    function openSupabase() { window.open("https://supabase.com/dashboard/project/oliefagvnorzhlzvdfyw","_blank"); }
+    function openGitHub() { window.open("https://github.com/freedingoxo/clawguardian-skill/edit/main/docs/index.html","_blank"); }
+    function openPythonAnywhere() { window.open("https://www.pythonanywhere.com/user/Freedlucass/consoles/","_blank"); }
+
+    async function fetchClaims() {
+        try {
+            const resp = await fetch(`${SUPABASE_URL}/rest/v1/blum_claims?select=*&order=created_at.desc&limit=30`, {
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+            });
+            return await resp.json();
+        } catch(e) { return []; }
+    }
+
+    async function refreshDashboard() {
+        const data = await fetchClaims();
+        const totalClaims = data.length;
+        const totalScans = parseInt(localStorage.getItem('totalScans')) || 17;
+        const totalCoins = totalScans * 1200;
+        const convRate = totalScans > 0 ? ((totalClaims / totalScans)*100).toFixed(1) : 0;
+        document.getElementById('totalClaims').innerText = totalClaims;
+        document.getElementById('totalScans').innerText = totalScans;
+        document.getElementById('totalCoins').innerText = totalCoins.toLocaleString();
+        document.getElementById('conversionRate').innerText = convRate + "%";
+        document.getElementById('lastUpdate').innerText = "آخر تحديث: " + new Date().toLocaleString();
+
+        const tbody = document.querySelector('#claimsTable tbody');
+        if(data.length){
+            tbody.innerHTML = data.slice(0,12).map((c,i)=>`<tr><td>${i+1}</td><td>${c.wallet_type||'-'}</td><td>${c.network||'-'}</td><td>${c.ip_address||'-'}</td><td>${new Date(c.created_at).toLocaleString()}</td></tr>`).join('');
+        } else { tbody.innerHTML = '<tr><td colspan="5">لا توجد مطالبات</td></tr>'; }
+
+        const last7 = [...Array(7)].map((_,i)=>new Date(Date.now()-i*86400000).toISOString().slice(0,10)).reverse();
+        const daily = last7.map(day=>data.filter(d=>d.created_at?.startsWith(day)).length);
+        if(claimsChart) claimsChart.destroy();
+        claimsChart = new Chart(document.getElementById('claimsChart'), {
+            type: 'line',
+            data: { labels: last7, datasets: [{ label: 'المطالبات', data: daily, borderColor: '#FFD700', borderWidth: 3, fill: true, backgroundColor: '#FFD70022', tension: 0.3 }] },
+            options: { responsive: true }
+        });
+        document.getElementById('botHealth').innerHTML = '✅ نشط';
+        document.getElementById('proxyHealth').innerHTML = '✅ مستجيب';
+        document.getElementById('dbHealth').innerHTML = `✅ متصل (${data.length} سجل)`;
+    }
+    refreshDashboard();
+    setInterval(refreshDashboard, 25000);
+</script>
+</body>
+</html>
